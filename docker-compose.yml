@@ -20,7 +20,6 @@ services:
 
   app:
     container_name: project-name-app-prod
-    command: ["yarn", "start:prod"]
     environment:
       - NODE_ENV=production
       - PGHOST=db

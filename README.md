@@ -103,14 +103,11 @@ $ yarn test:cov
 # create network to connect the app with the db
 $ docker network create project-name-network
 
-# start the db alone to start the first migration
-$ docker-compose -f 'docker-compose-prod-migration.yml' up
-
-# stop your migration app (when the migration is done)
-$ docker stop project-name-app-prod-migration
-
-# build the docker image & create the app/db container
+# build the docker image, create & run the app/db container in detached mode (background)
 $ docker-compose up -d
+
+# init tables with migration
+$ docker-compose exec app yarn db:migrate:prod
 ```
 
 ## Docker App Update
@@ -122,20 +119,11 @@ $ docker-compose up -d
 ```
 
 ## Docker Migration
-- To update the docker image and start the new docker container
+- To run new migrations
 
 ```bash
-# stop the app container
-$ docker stop project-name-app-prod
-
-# start the migrations
-$ docker-compose -f 'docker-compose-prod-migration.yml' up
-
-# stop your migration app (when the migration is done)
-$ docker stop project-name-app-prod-migration
-
-# restart the app container
-$ docker-compose up -d
+# start migrations
+$ docker-compose exec app yarn db:migrate:prod
 ```
 
 # Support
