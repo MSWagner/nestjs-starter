@@ -1,0 +1,45 @@
+version: '3'
+
+volumes:
+  database: {}
+
+services:
+  db:
+    container_name: project-name-postgres-prod-migration
+    image: postgres:10-alpine
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=toor
+      - POSTGRES_DB=project-name-prod-db
+    volumes:
+      - database:/var/lib/postgresql/data
+    networks:
+      - project-name-network
+
+  app:
+    container_name: project-name-app-prod-migration
+    command: ["yarn", "db:migrate:prod"]
+    environment:
+      - NODE_ENV=production
+      - PGHOST=db
+      - PGPORT=5432
+      - PGUSER=root
+      - PGPASSWORD=toor
+      - PGDATABASE=project-name-prod-db
+    image: project-name:latest
+    restart: always
+    ports:
+      - '3000:3000'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - project-name-network
+    depends_on:
+      - db
+
+networks:
+  project-name-network:
+    external: true

@@ -1,0 +1,13 @@
+version: '3'
+services:
+  TestDB:
+    container_name: project-name-postgres-test
+    image: postgres:10-alpine
+    ports:
+      - '5431:5432'
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=toor
+      - POSTGRES_DB=project-name-test-db
+    volumes:
+      - ./docker-volumes/postgresql-test:/var/lib/postgresql

@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AuthService should return null for wrong user permission scope (user1): UserPermissionScopeError 1`] = `null`;
+
+exports[`AuthService should return validated user1 with token: ValidatedUser1WithToken 1`] = `
+User {
+  "createdAt": "createdAt",
+  "isActive": true,
+  "passwordHash": "$2b$10$n8McQmLm6U/RXlRb9HxNEOgurQecAokxI2oCoumlSOlOj4M.aU59K",
+  "uid": "0961866f-ff60-4219-973c-109eecfa52bd",
+  "updatedAt": "updatedAt",
+  "userPermissions": Array [
+    UserPermission {
+      "createdAt": "createdAt",
+      "permission": Permission {
+        "createdAt": "createdAt",
+        "scope": "user",
+        "uid": "d7316b3e-44de-42b8-bc9b-bbf190cd98fa",
+        "updatedAt": "updatedAt",
+      },
+      "updatedAt": "updatedAt",
+    },
+  ],
+  "username": "user1",
+}
+`;
+
+exports[`AuthService should return validated user1 with user: ValidatedUser1WithUser 1`] = `
+User {
+  "createdAt": "createdAt",
+  "isActive": true,
+  "passwordHash": "$2b$10$n8McQmLm6U/RXlRb9HxNEOgurQecAokxI2oCoumlSOlOj4M.aU59K",
+  "uid": "0961866f-ff60-4219-973c-109eecfa52bd",
+  "updatedAt": "updatedAt",
+  "userPermissions": Array [
+    UserPermission {
+      "createdAt": "createdAt",
+      "permission": Permission {
+        "createdAt": "createdAt",
+        "scope": "user",
+        "uid": "d7316b3e-44de-42b8-bc9b-bbf190cd98fa",
+        "updatedAt": "updatedAt",
+      },
+      "updatedAt": "updatedAt",
+    },
+  ],
+  "username": "user1",
+}
+`;

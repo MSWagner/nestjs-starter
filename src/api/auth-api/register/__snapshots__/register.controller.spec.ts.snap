@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Register Controller /POST auth/register - should register an new user: RegisterCredentials 1`] = `
+Object {
+  "accessToken": "accessToken",
+  "expiresIn": 86400000,
+  "refreshToken": "refreshToken",
+  "tokenType": "Bearer",
+}
+`;
+
+exports[`Register Controller /POST auth/register - should throw an error for a to short password: RegisterPasswordToShortError 1`] = `
+Object {
+  "error": "Bad Request",
+  "message": Array [
+    Object {
+      "children": Array [],
+      "constraints": Object {
+        "minLength": "password must be longer than or equal to 6 characters",
+      },
+      "property": "password",
+      "target": Object {
+        "password": "passw",
+        "username": "test1",
+      },
+      "value": "passw",
+    },
+  ],
+  "statusCode": 400,
+}
+`;
+
+exports[`Register Controller /POST auth/register - should throw an error for a to short username: RegisterUsernameToShortError 1`] = `
+Object {
+  "error": "Bad Request",
+  "message": Array [
+    Object {
+      "children": Array [],
+      "constraints": Object {
+        "minLength": "username must be longer than or equal to 3 characters",
+      },
+      "property": "username",
+      "target": Object {
+        "password": "password",
+        "username": "te",
+      },
+      "value": "te",
+    },
+  ],
+  "statusCode": 400,
+}
+`;
+
+exports[`Register Controller /POST auth/register - should throw an error for a username conflict: RegisterUsernameConflictError 1`] = `
+Object {
+  "message": "User with the given username already exists",
+  "statusCode": 409,
+}
+`;
+
+exports[`Register Controller /POST auth/register - should throw an error for missing password: RegisterPasswordMissingError 1`] = `
+Object {
+  "error": "Bad Request",
+  "message": Array [
+    Object {
+      "children": Array [],
+      "constraints": Object {
+        "isString": "password must be a string",
+        "minLength": "password must be longer than or equal to 6 characters",
+      },
+      "property": "password",
+      "target": Object {
+        "username": "test1",
+      },
+    },
+  ],
+  "statusCode": 400,
+}
+`;
+
+exports[`Register Controller /POST auth/register - should throw an error for missing username: RegisterUsernameMissingError 1`] = `
+Object {
+  "error": "Bad Request",
+  "message": Array [
+    Object {
+      "children": Array [],
+      "constraints": Object {
+        "isString": "username must be a string",
+        "minLength": "username must be longer than or equal to 3 characters",
+      },
+      "property": "username",
+      "target": Object {
+        "password": "passwordTest",
+      },
+    },
+  ],
+  "statusCode": 400,
+}
+`;

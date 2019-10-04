@@ -1,0 +1,130 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TestService should replace all dates & uuids in the object: ReplaceDateAndUUIDs 1`] = `
+Array [
+  Object {
+    "test": Object {
+      "i1": "i1",
+    },
+    "test2": Array [
+      Array [
+        Object {
+          "test3": "test3",
+        },
+        "UUID",
+      ],
+    ],
+  },
+  "UUID",
+  Object {
+    "test": Object {
+      "i1": "i1",
+    },
+    "test2": Array [
+      Array [
+        Object {
+          "test3": "test3",
+        },
+        "DATE",
+      ],
+    ],
+  },
+  "DATE",
+]
+`;
+
+exports[`TestService should replace all dates in the object: DateReplaced 1`] = `
+Array [
+  Object {
+    "test": Object {
+      "i1": "d3fd0451-ec15-4f60-8e64-9142c4ab3a89",
+    },
+    "test2": Array [
+      Array [
+        Object {
+          "test3": "020bf68b-23bd-42b6-92b9-c6e0e897eb8f",
+        },
+        "757d21f0-f72c-4dc4-a6d4-badd1305ea7a",
+      ],
+    ],
+  },
+  "44218412-bfe7-4c70-aeca-276c0fcf099e",
+  Object {
+    "test": Object {
+      "i1": "i1",
+    },
+    "test2": Array [
+      Array [
+        Object {
+          "test3": "test3",
+        },
+        "DATE",
+      ],
+    ],
+  },
+  "DATE",
+]
+`;
+
+exports[`TestService should replace all uuids in the object: UUIDsReplaced 1`] = `
+Array [
+  Object {
+    "test": Object {
+      "i1": "i1",
+    },
+    "test2": Array [
+      Array [
+        Object {
+          "test3": "test3",
+        },
+        "UUID",
+      ],
+    ],
+  },
+  "UUID",
+  Object {
+    "test": Object {
+      "i1": "2019-09-28 15:26:33.186",
+    },
+    "test2": Array [
+      Array [
+        Object {
+          "test3": "2019-09-28 15:26:33.186",
+        },
+        "2019-09-28 15:26:33.186",
+      ],
+    ],
+  },
+  "2019-09-28 15:26:33.186",
+]
+`;
+
+exports[`TestService should return all entities: DatabaseEntitiyList 1`] = `
+Array [
+  Object {
+    "name": "RefreshToken",
+    "order": 3,
+    "tableName": "refresh_token",
+  },
+  Object {
+    "name": "AccessToken",
+    "order": 4,
+    "tableName": "access_token",
+  },
+  Object {
+    "name": "Permission",
+    "order": 0,
+    "tableName": "permission",
+  },
+  Object {
+    "name": "UserPermission",
+    "order": 2,
+    "tableName": "user_permission",
+  },
+  Object {
+    "name": "User",
+    "order": 1,
+    "tableName": "user",
+  },
+]
+`;
