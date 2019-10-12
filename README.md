@@ -37,7 +37,6 @@ Replace the string <b><i>'project-name'</i></b> in all files of the project with
 - docker-compose.yml
 - docker-compose-dev.yml
 - docker-compose-test.yml
-- docker-compose-prod.yml
 - prod.env
 - dev.env
 - test.env
