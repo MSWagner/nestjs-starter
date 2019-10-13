@@ -13,7 +13,7 @@ export class User extends BaseEntity {
     @Column({ type: 'text', unique: true, nullable: false })
     username: string;
 
-    @Column({ type: 'text', nullable: true, default: 'NULL' })
+    @Column({ type: 'text', nullable: true, default: null })
     passwordHash: string;
 
     @Column({ type: 'boolean', default: true })

@@ -10,7 +10,7 @@ export class AccessToken extends BaseEntity {
     @Column({})
     validUntil: Date;
 
-    @ManyToOne(type => User, user => user.accessToken, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
+    @ManyToOne(type => User, user => user.accessToken, { onDelete: 'CASCADE', onUpdate: 'CASCADE', nullable: false })
     user: User;
 
     @CreateDateColumn()
