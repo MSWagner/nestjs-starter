@@ -1,7 +1,7 @@
 version: '3'
 
 volumes:
-  database: {}
+  project-name-database: {}
 
 services:
   db:
@@ -14,7 +14,7 @@ services:
       - POSTGRES_PASSWORD=toor
       - POSTGRES_DB=project-name-prod-db
     volumes:
-      - database:/var/lib/postgresql/data
+      - project-name-database:/var/lib/postgresql/data
     networks:
       - project-name-network
 
