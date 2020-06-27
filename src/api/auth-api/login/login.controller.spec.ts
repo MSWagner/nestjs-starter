@@ -1,5 +1,4 @@
 import * as request from 'supertest';
-import * as _ from 'lodash';
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 

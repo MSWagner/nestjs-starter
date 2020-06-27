@@ -1,12 +1,12 @@
 import { Controller, Body, Post, HttpException, HttpStatus } from '@nestjs/common';
-import { ApiUseTags, ApiCreatedResponse } from '@nestjs/swagger';
+import { ApiTags, ApiCreatedResponse } from '@nestjs/swagger';
 
 import { AuthService } from '../../../services/auth/auth.service';
 import { RegisterDto, RegisterResponse } from './_types';
 
 import { CONFIG } from '../../../configure';
 
-@ApiUseTags('auth')
+@ApiTags('auth')
 @Controller('api/v1/auth/register')
 export class RegisterController {
 

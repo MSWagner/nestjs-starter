@@ -1,28 +1,28 @@
 import { IsString, MinLength } from 'class-validator';
-import { ApiModelProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class RegisterDto {
     @IsString()
     @MinLength(3)
-    @ApiModelProperty({ minLength: 3 })
+    @ApiProperty({ minLength: 3 })
     readonly username: string;
 
     @IsString()
     @MinLength(6)
-    @ApiModelProperty({ minLength: 6 })
+    @ApiProperty({ minLength: 6 })
     readonly password: string;
 }
 
 export class RegisterResponse {
-    @ApiModelProperty()
+    @ApiProperty()
     readonly tokenType: string;
 
-    @ApiModelProperty()
+    @ApiProperty()
     readonly expiresIn: number;
 
-    @ApiModelProperty({ format: 'uuid' })
+    @ApiProperty({ format: 'uuid' })
     refreshToken: string;
 
-    @ApiModelProperty({ format: 'uuid' })
+    @ApiProperty({ format: 'uuid' })
     accessToken: string;
 }

@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import * as moment from 'moment';
-import uuidv4 from 'uuidv4';
+import { isUuid } from 'uuidv4';
 
 import { Injectable } from '@nestjs/common';
 import { getConnection, EntityManager } from 'typeorm';
@@ -113,7 +113,7 @@ export class TestService {
             return 'DATE';
         }
 
-        if (types.includes('UUID') && uuidv4.is(object)) {
+        if (types.includes('UUID') && isUuid(object)) {
             return 'UUID';
         }
 
@@ -132,7 +132,7 @@ export class TestService {
                 object[key] = key;
             }
 
-            if (types.includes('UUID') && uuidv4.is(object[key])) {
+            if (types.includes('UUID') && isUuid(object[key])) {
                 object[key] = key;
             }
         });

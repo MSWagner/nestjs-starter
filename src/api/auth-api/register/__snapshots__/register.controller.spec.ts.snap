@@ -13,18 +13,7 @@ exports[`Register Controller /POST auth/register - should throw an error for a t
 Object {
   "error": "Bad Request",
   "message": Array [
-    Object {
-      "children": Array [],
-      "constraints": Object {
-        "minLength": "password must be longer than or equal to 6 characters",
-      },
-      "property": "password",
-      "target": Object {
-        "password": "passw",
-        "username": "test1",
-      },
-      "value": "passw",
-    },
+    "password must be longer than or equal to 6 characters",
   ],
   "statusCode": 400,
 }
@@ -34,18 +23,7 @@ exports[`Register Controller /POST auth/register - should throw an error for a t
 Object {
   "error": "Bad Request",
   "message": Array [
-    Object {
-      "children": Array [],
-      "constraints": Object {
-        "minLength": "username must be longer than or equal to 3 characters",
-      },
-      "property": "username",
-      "target": Object {
-        "password": "password",
-        "username": "te",
-      },
-      "value": "te",
-    },
+    "username must be longer than or equal to 3 characters",
   ],
   "statusCode": 400,
 }
@@ -62,17 +40,8 @@ exports[`Register Controller /POST auth/register - should throw an error for mis
 Object {
   "error": "Bad Request",
   "message": Array [
-    Object {
-      "children": Array [],
-      "constraints": Object {
-        "isString": "password must be a string",
-        "minLength": "password must be longer than or equal to 6 characters",
-      },
-      "property": "password",
-      "target": Object {
-        "username": "test1",
-      },
-    },
+    "password must be longer than or equal to 6 characters",
+    "password must be a string",
   ],
   "statusCode": 400,
 }
@@ -82,17 +51,8 @@ exports[`Register Controller /POST auth/register - should throw an error for mis
 Object {
   "error": "Bad Request",
   "message": Array [
-    Object {
-      "children": Array [],
-      "constraints": Object {
-        "isString": "username must be a string",
-        "minLength": "username must be longer than or equal to 3 characters",
-      },
-      "property": "username",
-      "target": Object {
-        "password": "passwordTest",
-      },
-    },
+    "username must be longer than or equal to 3 characters",
+    "username must be a string",
   ],
   "statusCode": 400,
 }

@@ -11,35 +11,35 @@ Object {
 
 exports[`Login Controller /POST auth/login - should return an error for a missing permission scope (user2): MissingPermissionScopeUser2 1`] = `
 Object {
-  "error": "Unauthorized",
+  "message": "Unauthorized",
   "statusCode": 401,
 }
 `;
 
 exports[`Login Controller /POST auth/login - should return an error for a not existing username: LoginNotExistingUserError 1`] = `
 Object {
-  "error": "Unauthorized",
+  "message": "Unauthorized",
   "statusCode": 401,
 }
 `;
 
 exports[`Login Controller /POST auth/login - should return an error for a wrong password: LoginWrongPasswordError 1`] = `
 Object {
-  "error": "Unauthorized",
+  "message": "Unauthorized",
   "statusCode": 401,
 }
 `;
 
 exports[`Login Controller /POST auth/login - should throw error for missing password: LoginMissingPasswordError 1`] = `
 Object {
-  "error": "Unauthorized",
+  "message": "Unauthorized",
   "statusCode": 401,
 }
 `;
 
 exports[`Login Controller /POST auth/login - should throw error for missing username: LoginMissingUsernameError 1`] = `
 Object {
-  "error": "Unauthorized",
+  "message": "Unauthorized",
   "statusCode": 401,
 }
 `;

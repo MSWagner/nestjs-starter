@@ -1,22 +1,22 @@
 import { IsUUID } from 'class-validator';
-import { ApiModelProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class RefreshTokenDto {
     @IsUUID()
-    @ApiModelProperty({ format: 'uuid' })
+    @ApiProperty({ format: 'uuid' })
     refreshToken: string;
 }
 
 export class RefreshTokenResponse {
-    @ApiModelProperty()
+    @ApiProperty()
     readonly tokenType: string;
 
-    @ApiModelProperty()
+    @ApiProperty()
     readonly expiresIn: number;
 
-    @ApiModelProperty({ format: 'uuid' })
+    @ApiProperty({ format: 'uuid' })
     refreshToken: string;
 
-    @ApiModelProperty({ format: 'uuid' })
+    @ApiProperty({ format: 'uuid' })
     accessToken: string;
 }
