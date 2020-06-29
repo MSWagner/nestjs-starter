@@ -13,7 +13,7 @@ export class Permission extends BaseEntity {
     @Column({ unique: true })
     scope: PermissionScope;
 
-    @OneToMany(type => UserPermission, userPermissions => userPermissions.permission)
+    @OneToMany(_type => UserPermission, userPermissions => userPermissions.permission)
     userPermissions: UserPermission[];
 
     @CreateDateColumn()

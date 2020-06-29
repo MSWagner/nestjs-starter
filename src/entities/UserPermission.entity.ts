@@ -6,10 +6,10 @@ import { Permission } from './Permission.entity';
 @Entity()
 export class UserPermission extends BaseEntity {
 
-    @ManyToOne(type => User, user => user.userPermissions, { primary: true, onDelete: 'CASCADE', onUpdate: 'CASCADE' })
+    @ManyToOne(_type => User, user => user.userPermissions, { primary: true, onDelete: 'CASCADE', onUpdate: 'CASCADE' })
     user: User;
 
-    @ManyToOne(type => Permission, user => user.userPermissions, { primary: true, onDelete: 'CASCADE', onUpdate: 'CASCADE', eager: true })
+    @ManyToOne(_type => Permission, user => user.userPermissions, { primary: true, onDelete: 'CASCADE', onUpdate: 'CASCADE', eager: true })
     permission: Permission;
 
     @CreateDateColumn()

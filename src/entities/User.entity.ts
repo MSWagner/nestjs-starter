@@ -19,13 +19,13 @@ export class User extends BaseEntity {
     @Column({ type: 'boolean', default: true })
     isActive: string;
 
-    @OneToMany(type => RefreshToken, refreshToken => refreshToken.user)
+    @OneToMany(_type => RefreshToken, refreshToken => refreshToken.user)
     refreshTokens: RefreshToken[];
 
-    @OneToMany(type => AccessToken, accessToken => accessToken.user)
+    @OneToMany(_type => AccessToken, accessToken => accessToken.user)
     accessToken: AccessToken[];
 
-    @OneToMany(type => UserPermission, userPermissions => userPermissions.user, { eager: true })
+    @OneToMany(_type => UserPermission, userPermissions => userPermissions.user, { eager: true })
     userPermissions: UserPermission[];
 
     @CreateDateColumn()
