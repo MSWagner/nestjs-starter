@@ -16,7 +16,7 @@ export class User extends BaseEntity {
     @Column({ type: 'text', nullable: true, default: null })
     passwordHash: string;
 
-    @Column({ type: 'boolean', default: true })
+    @Column({ type: 'boolean', default: false })
     isActive: string;
 
     @OneToMany(_type => RefreshToken, refreshToken => refreshToken.user)

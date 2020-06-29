@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`AuthService should return null for user1 without admin scrope: User1NoAdminScope 1`] = `null`;
+
 exports[`AuthService should return null for wrong user permission scope (user1): UserPermissionScopeError 1`] = `null`;
 
 exports[`AuthService should return validated user1 with token: ValidatedUser1WithToken 1`] = `
@@ -21,7 +23,7 @@ User {
       "updatedAt": "updatedAt",
     },
   ],
-  "username": "user1",
+  "username": "user1@email.at",
 }
 `;
 
@@ -44,6 +46,29 @@ User {
       "updatedAt": "updatedAt",
     },
   ],
-  "username": "user1",
+  "username": "user1@email.at",
+}
+`;
+
+exports[`AuthService should return validated user3 as admin with token: ValidatedUser3AdminWithToken 1`] = `
+User {
+  "createdAt": "createdAt",
+  "isActive": true,
+  "passwordHash": null,
+  "uid": "435c0a53-9e6b-488a-9d1c-582b108ed3e7",
+  "updatedAt": "updatedAt",
+  "userPermissions": Array [
+    UserPermission {
+      "createdAt": "createdAt",
+      "permission": Permission {
+        "createdAt": "createdAt",
+        "scope": "admin",
+        "uid": "ebf943cd-cd67-4720-bd40-6cf3c25e4054",
+        "updatedAt": "updatedAt",
+      },
+      "updatedAt": "updatedAt",
+    },
+  ],
+  "username": "user3@email.com",
 }
 `;

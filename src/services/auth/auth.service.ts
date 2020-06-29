@@ -53,15 +53,19 @@ export class AuthService {
         return accessToken;
     }
 
-    async validateUser(username: string, password: string, scropes: PermissionScope[]): Promise<User> {
+    async validateUser(username: string, password: string, scopes: PermissionScope[]): Promise<User> {
         const user = await this.userService.findOne(username);
 
         if (_.isNil(user)) {
             return null;
         }
 
+        if (!user.isActive) {
+            return null;
+        }
+
         // Check if the user has one of the necessary permission scopes
-        if (!_.isEmpty(scropes)) {
+        if (!_.isEmpty(scopes)) {
 
             if (_.isNil(user.userPermissions)) { return null; }
 
@@ -69,7 +73,7 @@ export class AuthService {
                 return _.isNil(userPermission.permission) ? null : userPermission.permission.scope;
             });
 
-            if (_.intersection(scropes, userPermissionScopes).length === 0) {
+            if (_.intersection(scopes, userPermissionScopes).length === 0) {
                 return null;
             }
         }
@@ -79,7 +83,7 @@ export class AuthService {
         return isValid ? user : null;
     }
 
-    async validateToken(token: string): Promise<User> {
+    async validateToken(token: string, scopes: PermissionScope[]): Promise<User> {
         const accessToken = await this.accessTokenRepository.findOne(token, { relations: ['user'] });
 
         if (_.isNil(accessToken)) {
@@ -90,6 +94,24 @@ export class AuthService {
 
         if (!isValid) {
             await this.accessTokenRepository.delete(accessToken);
+        }
+
+        if (!accessToken.user.isActive) {
+            return null;
+        }
+
+        // Check if the user has one of the necessary permission scopes
+        if (!_.isEmpty(scopes)) {
+
+            if (_.isNil(accessToken.user.userPermissions)) { return null; }
+
+            const userPermissionScopes = accessToken.user.userPermissions.map((userPermission) => {
+                return _.isNil(userPermission.permission) ? null : userPermission.permission.scope;
+            });
+
+            if (_.intersection(scopes, userPermissionScopes).length === 0) {
+                return null;
+            }
         }
 
         return isValid ? accessToken.user : null;

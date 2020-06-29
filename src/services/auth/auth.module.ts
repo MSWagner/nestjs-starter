@@ -4,7 +4,8 @@ import { AuthService } from './auth.service';
 
 import { LocalStrategy } from './strategies/local.strategy';
 import { BearerStrategy } from './strategies/bearer.strategy';
-import { AdminStrategy } from './strategies/admin.strategy';
+import { AdminLocalStrategy } from './strategies/admin-local.strategy';
+import { AdminBearerStrategy } from './strategies/admin-bearer.strategy';
 
 import { UserModule } from '../user/user.module';
 
@@ -18,7 +19,15 @@ import { refreshTokenProviders } from './providers/refreshTokenProviders';
         UserModule,
         PassportModule,
     ],
-    providers: [AuthService, LocalStrategy, BearerStrategy, AdminStrategy, ...accessTokenProviders, ...refreshTokenProviders],
+    providers: [
+        AuthService,
+        LocalStrategy,
+        BearerStrategy,
+        AdminLocalStrategy,
+        AdminBearerStrategy,
+        ...accessTokenProviders,
+        ...refreshTokenProviders
+    ],
     exports: [AuthService],
 })
 export class AuthModule { }

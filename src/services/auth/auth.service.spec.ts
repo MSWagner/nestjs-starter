@@ -14,7 +14,7 @@ import { User } from '../../entities/User.entity';
 import { AccessToken } from '../../entities/AccessToken.entity';
 import { RefreshToken } from '../../entities/RefreshToken.entity';
 
-import { user1, accessToken1, invalidAccessToken, refreshToken1, invalidRefreshToken, fixtureTrees } from '../../services/test/fixtures';
+import * as fixtures from '../../services/test/fixtures';
 
 describe('AuthService', () => {
     let service: AuthService;
@@ -39,27 +39,27 @@ describe('AuthService', () => {
     });
 
     it('should return new generated token for user1', async () => {
-        const user1AccessTokenCount = await AccessToken.count({ where: { user: user1.uid } });
-        const user1RefreshTokenCount = await RefreshToken.count({ where: { user: user1.uid } });
+        const user1AccessTokenCount = await AccessToken.count({ where: { user: fixtures.user1.uid } });
+        const user1RefreshTokenCount = await RefreshToken.count({ where: { user: fixtures.user1.uid } });
 
         expect(user1AccessTokenCount).toBe(1);
         expect(user1RefreshTokenCount).toBe(1);
 
-        const user = await User.findOne({ where: { uid: user1.uid } });
+        const user = await User.findOne({ where: { uid: fixtures.user1.uid } });
         const tokens = await service.generateToken(user);
 
         expect(tokens.accessToken).not.toBe(null);
         expect(tokens.refreshToken).not.toBe(null);
 
-        const user1AccessTokenCountAfter = await AccessToken.count({ where: { user: user1.uid } });
-        const user1RefreshTokenCountAfter = await RefreshToken.count({ where: { user: user1.uid } });
+        const user1AccessTokenCountAfter = await AccessToken.count({ where: { user: fixtures.user1.uid } });
+        const user1RefreshTokenCountAfter = await RefreshToken.count({ where: { user: fixtures.user1.uid } });
 
         expect(user1AccessTokenCountAfter).toBe(2);
         expect(user1RefreshTokenCountAfter).toBe(2);
     });
 
     it('should return validated user1 with user', async () => {
-        const user = await service.validateUser(user1.username, 'testPassword', ['user']);
+        const user = await service.validateUser(fixtures.user1.username, 'testPassword', ['user']);
 
         expect(user).not.toBe(null);
 
@@ -68,7 +68,7 @@ describe('AuthService', () => {
     });
 
     it('should return null for wrong user permission scope (user1)', async () => {
-        const user = await service.validateUser(user1.username, 'testPassword', ['admin']);
+        const user = await service.validateUser(fixtures.user1.username, 'testPassword', ['admin']);
 
         expect(user).toBe(null);
 
@@ -77,7 +77,7 @@ describe('AuthService', () => {
     });
 
     it('should return null for wrong user1 password', async () => {
-        const user = await service.validateUser(user1.username, 'wrongPassword', ['user']);
+        const user = await service.validateUser(fixtures.user1.username, 'wrongPassword', ['user']);
 
         expect(user).toBe(null);
     });
@@ -89,7 +89,7 @@ describe('AuthService', () => {
     });
 
     it('should return validated user1 with token', async () => {
-        const user = await service.validateToken(accessToken1.token);
+        const user = await service.validateToken(fixtures.accessToken1.token, ['user']);
 
         expect(user).not.toBe(null);
 
@@ -97,21 +97,57 @@ describe('AuthService', () => {
         expect(userWithoutDates).toMatchSnapshot('ValidatedUser1WithToken');
     });
 
-    it('should return null for invalid token and delete it', async () => {
-        const accessTokenCountBefore = await AccessToken.count({ token: invalidAccessToken.token });
+    it('should return validated user3 as admin with token', async () => {
+        const user = await service.validateToken(fixtures.accessTokenUser3Admin.token, ['admin']);
+
+        expect(user).not.toBe(null);
+
+        const userWithoutDates = testService.replaceDates(user);
+        expect(userWithoutDates).toMatchSnapshot('ValidatedUser3AdminWithToken');
+    });
+
+    it('should return null for user1 without admin scrope', async () => {
+        const accessTokenCountBefore = await AccessToken.count({ token: fixtures.accessToken1.token });
         expect(accessTokenCountBefore).toEqual(1);
 
-        const user = await service.validateToken(invalidAccessToken.token);
+        const user = await service.validateToken(fixtures.accessToken1.token, ['admin']);
 
         expect(user).toBe(null);
 
-        const accessTokenCountAfter = await AccessToken.count({ token: invalidAccessToken.token });
+        const userWithoutDates = testService.replaceDates(user);
+        expect(userWithoutDates).toMatchSnapshot('User1NoAdminScope');
+
+        const accessTokenCountAfter = await AccessToken.count({ token: fixtures.accessToken1.token });
+        expect(accessTokenCountAfter).toEqual(1);
+    });
+
+    it('should return null for no permission token and not delete it', async () => {
+        const accessTokenCountBefore = await AccessToken.count({ token: fixtures.accessTokenUser2.token });
+        expect(accessTokenCountBefore).toEqual(1);
+
+        const user = await service.validateToken(fixtures.accessTokenUser2.token, ['user']);
+
+        expect(user).toBe(null);
+
+        const accessTokenCountAfter = await AccessToken.count({ token: fixtures.accessTokenUser2.token });
+        expect(accessTokenCountAfter).toEqual(1);
+    });
+
+    it('should return null for invalid token and delete it', async () => {
+        const accessTokenCountBefore = await AccessToken.count({ token: fixtures.invalidAccessToken.token });
+        expect(accessTokenCountBefore).toEqual(1);
+
+        const user = await service.validateToken(fixtures.invalidAccessToken.token, ['user']);
+
+        expect(user).toBe(null);
+
+        const accessTokenCountAfter = await AccessToken.count({ token: fixtures.invalidAccessToken.token });
         expect(accessTokenCountAfter).toEqual(0);
     });
 
     it('should register new user', async () => {
         const userCountBefore = await User.count();
-        expect(userCountBefore).toBe(fixtureTrees.User.length);
+        expect(userCountBefore).toBe(fixtures.fixtureTrees.User.length);
 
         const user = await service.register('newUsername', 'password');
 
@@ -119,15 +155,15 @@ describe('AuthService', () => {
         expect(user.username).toBe('newUsername');
 
         const userCountAfter = await User.count();
-        expect(userCountAfter).toBe(fixtureTrees.User.length + 1);
+        expect(userCountAfter).toBe(fixtures.fixtureTrees.User.length + 1);
     });
 
     it('should throw error for username confict', async () => {
         const userCountBefore = await User.count();
-        expect(userCountBefore).toBe(fixtureTrees.User.length);
+        expect(userCountBefore).toBe(fixtures.fixtureTrees.User.length);
 
         try {
-            const user = await service.register(user1.username, 'password');
+            const user = await service.register(fixtures.user1.username, 'password');
             expect(user).toBe(null);
 
         } catch (err) {
@@ -138,13 +174,13 @@ describe('AuthService', () => {
     });
 
     it('should return new generated token for user1 login', async () => {
-        const user1AccessTokenCount = await AccessToken.count({ where: { user: user1.uid } });
-        const user1RefreshTokenCount = await RefreshToken.count({ where: { user: user1.uid } });
+        const user1AccessTokenCount = await AccessToken.count({ where: { user: fixtures.user1.uid } });
+        const user1RefreshTokenCount = await RefreshToken.count({ where: { user: fixtures.user1.uid } });
 
         expect(user1AccessTokenCount).toBe(1);
         expect(user1RefreshTokenCount).toBe(1);
 
-        const user = await User.findOne({ where: { uid: user1.uid } });
+        const user = await User.findOne({ where: { uid: fixtures.user1.uid } });
         const tokens = await service.login(user);
 
         expect(tokens.accessToken).not.toBe(null);
@@ -153,35 +189,35 @@ describe('AuthService', () => {
         // To test the option with 0 as refreshTokenValidityMS
         expect(tokens.refreshToken.validUntil).toBe(null);
 
-        const user1AccessTokenCountAfter = await AccessToken.count({ where: { user: user1.uid } });
-        const user1RefreshTokenCountAfter = await RefreshToken.count({ where: { user: user1.uid } });
+        const user1AccessTokenCountAfter = await AccessToken.count({ where: { user: fixtures.user1.uid } });
+        const user1RefreshTokenCountAfter = await RefreshToken.count({ where: { user: fixtures.user1.uid } });
 
         expect(user1AccessTokenCountAfter).toBe(2);
         expect(user1RefreshTokenCountAfter).toBe(2);
     });
 
     it('should return new generated token with refreshToken', async () => {
-        const user1AccessTokenCount = await AccessToken.count({ where: { user: user1.uid } });
-        const user1RefreshTokenCount = await RefreshToken.count({ where: { user: user1.uid } });
+        const user1AccessTokenCount = await AccessToken.count({ where: { user: fixtures.user1.uid } });
+        const user1RefreshTokenCount = await RefreshToken.count({ where: { user: fixtures.user1.uid } });
 
         expect(user1AccessTokenCount).toBe(1);
         expect(user1RefreshTokenCount).toBe(1);
 
-        const tokens = await service.refreshAuthToken(refreshToken1.token);
+        const tokens = await service.refreshAuthToken(fixtures.refreshToken1.token);
 
         expect(tokens.accessToken).not.toBe(null);
         expect(tokens.refreshToken).not.toBe(null);
 
-        const user1AccessTokenCountAfter = await AccessToken.count({ where: { user: user1.uid } });
-        const user1RefreshTokenCountAfter = await RefreshToken.count({ where: { user: user1.uid } });
+        const user1AccessTokenCountAfter = await AccessToken.count({ where: { user: fixtures.user1.uid } });
+        const user1RefreshTokenCountAfter = await RefreshToken.count({ where: { user: fixtures.user1.uid } });
 
         expect(user1AccessTokenCountAfter).toBe(2);
         expect(user1RefreshTokenCountAfter).toBe(1);
     });
 
     it('should return null for not existing refreshToken', async () => {
-        const user1AccessTokenCount = await AccessToken.count({ where: { user: user1.uid } });
-        const user1RefreshTokenCount = await RefreshToken.count({ where: { user: user1.uid } });
+        const user1AccessTokenCount = await AccessToken.count({ where: { user: fixtures.user1.uid } });
+        const user1RefreshTokenCount = await RefreshToken.count({ where: { user: fixtures.user1.uid } });
 
         expect(user1AccessTokenCount).toBe(1);
         expect(user1RefreshTokenCount).toBe(1);
@@ -192,14 +228,20 @@ describe('AuthService', () => {
     });
 
     it('should return null for invalid refreshToken', async () => {
-        const refreshTokenCountBefore = await RefreshToken.count({ token: invalidRefreshToken.token });
+        const refreshTokenCountBefore = await RefreshToken.count({ token: fixtures.invalidRefreshToken.token });
         expect(refreshTokenCountBefore).toBe(1);
 
-        const tokens = await service.refreshAuthToken(invalidRefreshToken.token);
+        const tokens = await service.refreshAuthToken(fixtures.invalidRefreshToken.token);
 
         expect(tokens).toBe(null);
 
-        const refreshTokenCountAfter = await RefreshToken.count({ token: invalidRefreshToken.token });
+        const refreshTokenCountAfter = await RefreshToken.count({ token: fixtures.invalidRefreshToken.token });
         expect(refreshTokenCountAfter).toBe(0);
+    });
+
+    it('should return null for inactive user validation', async () => {
+        const user = await service.validateUser(fixtures.userInActive.username, 'testPassword', []);
+
+        expect(user).toBe(null);
     });
 });
