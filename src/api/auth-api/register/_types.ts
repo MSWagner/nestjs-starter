@@ -1,5 +1,5 @@
-import { IsString, MinLength } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { IsString, MinLength } from "class-validator";
+import { ApiProperty } from "@nestjs/swagger";
 
 export class RegisterDto {
     @IsString()
@@ -20,9 +20,9 @@ export class RegisterResponse {
     @ApiProperty()
     readonly expiresIn: number;
 
-    @ApiProperty({ format: 'uuid' })
+    @ApiProperty({ format: "uuid" })
     refreshToken: string;
 
-    @ApiProperty({ format: 'uuid' })
+    @ApiProperty({ format: "uuid" })
     accessToken: string;
 }

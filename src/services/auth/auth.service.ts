@@ -1,22 +1,21 @@
-import * as bcrypt from 'bcrypt';
-import * as moment from 'moment';
-import * as _ from 'lodash';
+import * as bcrypt from "bcrypt";
+import * as moment from "moment";
+import * as _ from "lodash";
 
-import { Injectable, Inject } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Injectable, Inject } from "@nestjs/common";
+import { Repository } from "typeorm";
 
-import { UserService } from '../user/user.service';
+import { UserService } from "../user/user.service";
 
-import { User } from '../../entities/User.entity';
-import { AccessToken } from '../../entities/AccessToken.entity';
-import { RefreshToken } from '../../entities/RefreshToken.entity';
-import { PermissionScope } from '../../entities/Permission.entity';
+import { User } from "../../entities/User.entity";
+import { AccessToken } from "../../entities/AccessToken.entity";
+import { RefreshToken } from "../../entities/RefreshToken.entity";
+import { PermissionScope } from "../../entities/Permission.entity";
 
-import { CONFIG } from '../../configure';
+import { CONFIG } from "../../configure";
 
 @Injectable()
 export class AuthService {
-
     constructor(
         @Inject(CONFIG.database.defaultAccessTokenRepoName)
         private readonly accessTokenRepository: Repository<AccessToken>,
@@ -25,13 +24,14 @@ export class AuthService {
         private readonly refreshTokenRepository: Repository<RefreshToken>,
 
         private readonly userService: UserService
-    ) { }
+    ) {}
 
-    async generateToken(user: User): Promise<{ accessToken: AccessToken, refreshToken: RefreshToken }> {
+    async generateToken(user: User): Promise<{ accessToken: AccessToken; refreshToken: RefreshToken }> {
         const newRefreshToken = new RefreshToken();
-        newRefreshToken.validUntil = CONFIG.auth.refreshTokenValidityMS > 0
-            ? moment().add(CONFIG.auth.refreshTokenValidityMS, 'milliseconds').toDate()
-            : null;
+        newRefreshToken.validUntil =
+            CONFIG.auth.refreshTokenValidityMS > 0
+                ? moment().add(CONFIG.auth.refreshTokenValidityMS, "milliseconds").toDate()
+                : null;
         newRefreshToken.user = user;
 
         const accessToken = await this.generateAuthToken(user);
@@ -45,7 +45,7 @@ export class AuthService {
 
     async generateAuthToken(user: User): Promise<AccessToken> {
         const newAccessToken = new AccessToken();
-        newAccessToken.validUntil = moment().add(CONFIG.auth.tokenValidity, 'milliseconds').toDate();
+        newAccessToken.validUntil = moment().add(CONFIG.auth.tokenValidity, "milliseconds").toDate();
         newAccessToken.user = user;
 
         const accessToken = await this.accessTokenRepository.save(newAccessToken);
@@ -66,8 +66,9 @@ export class AuthService {
 
         // Check if the user has one of the necessary permission scopes
         if (!_.isEmpty(scopes)) {
-
-            if (_.isNil(user.userPermissions)) { return null; }
+            if (_.isNil(user.userPermissions)) {
+                return null;
+            }
 
             const userPermissionScopes = user.userPermissions.map((userPermission) => {
                 return _.isNil(userPermission.permission) ? null : userPermission.permission.scope;
@@ -84,7 +85,7 @@ export class AuthService {
     }
 
     async validateToken(token: string, scopes: PermissionScope[]): Promise<User> {
-        const accessToken = await this.accessTokenRepository.findOne(token, { relations: ['user'] });
+        const accessToken = await this.accessTokenRepository.findOne(token, { relations: ["user"] });
 
         if (_.isNil(accessToken)) {
             return null;
@@ -102,8 +103,9 @@ export class AuthService {
 
         // Check if the user has one of the necessary permission scopes
         if (!_.isEmpty(scopes)) {
-
-            if (_.isNil(accessToken.user.userPermissions)) { return null; }
+            if (_.isNil(accessToken.user.userPermissions)) {
+                return null;
+            }
 
             const userPermissionScopes = accessToken.user.userPermissions.map((userPermission) => {
                 return _.isNil(userPermission.permission) ? null : userPermission.permission.scope;
@@ -126,18 +128,22 @@ export class AuthService {
     }
 
     async refreshAuthToken(token: string) {
-        const refreshToken = await this.refreshTokenRepository.findOne(token, { relations: ['user'] });
+        const refreshToken = await this.refreshTokenRepository.findOne(token, { relations: ["user"] });
 
-        const isValid = !_.isNil(refreshToken) && !_.isNil(refreshToken.user)
-            && (_.isNil(refreshToken.validUntil) || moment().isSameOrBefore(refreshToken.validUntil));
+        const isValid =
+            !_.isNil(refreshToken) &&
+            !_.isNil(refreshToken.user) &&
+            (_.isNil(refreshToken.validUntil) || moment().isSameOrBefore(refreshToken.validUntil));
 
         if (!isValid && !_.isNil(refreshToken)) {
             await this.refreshTokenRepository.delete(refreshToken);
         }
 
-        return !isValid ? null : {
-            accessToken: await this.generateAuthToken(refreshToken.user),
-            refreshToken
-        };
+        return !isValid
+            ? null
+            : {
+                  accessToken: await this.generateAuthToken(refreshToken.user),
+                  refreshToken
+              };
     }
 }

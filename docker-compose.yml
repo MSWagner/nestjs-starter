@@ -1,44 +1,44 @@
-version: '3'
+version: "3"
 
 volumes:
-  project-name-database: {}
+    project-name-database: {}
 
 services:
-  db:
-    container_name: project-name-postgres-prod
-    image: postgres:10-alpine
-    ports:
-      - '5432:5432'
-    environment:
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=toor
-      - POSTGRES_DB=project-name-prod-db
-    volumes:
-      - project-name-database:/var/lib/postgresql/data
-    networks:
-      - project-name-network
+    db:
+        container_name: project-name-postgres-prod
+        image: postgres:10-alpine
+        ports:
+            - "5432:5432"
+        environment:
+            - POSTGRES_USER=root
+            - POSTGRES_PASSWORD=toor
+            - POSTGRES_DB=project-name-prod-db
+        volumes:
+            - project-name-database:/var/lib/postgresql/data
+        networks:
+            - project-name-network
 
-  app:
-    container_name: project-name-app-prod
-    environment:
-      - NODE_ENV=production
-      - PGHOST=db
-      - PGPORT=5432
-      - PGUSER=root
-      - PGPASSWORD=toor
-      - PGDATABASE=project-name-prod-db
-    image: project-name:latest
-    restart: always
-    ports:
-      - '3000:3000'
-    build:
-      context: .
-      dockerfile: Dockerfile
-    networks:
-      - project-name-network
-    depends_on:
-      - db
+    app:
+        container_name: project-name-app-prod
+        environment:
+            - NODE_ENV=production
+            - PGHOST=db
+            - PGPORT=5432
+            - PGUSER=root
+            - PGPASSWORD=toor
+            - PGDATABASE=project-name-prod-db
+        image: project-name:latest
+        restart: always
+        ports:
+            - "3000:3000"
+        build:
+            context: .
+            dockerfile: Dockerfile
+        networks:
+            - project-name-network
+        depends_on:
+            - db
 
 networks:
-  project-name-network:
-    external: true
+    project-name-network:
+        external: true

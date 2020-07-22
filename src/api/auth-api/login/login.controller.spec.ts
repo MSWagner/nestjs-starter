@@ -1,18 +1,18 @@
-import * as request from 'supertest';
-import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication, ValidationPipe } from '@nestjs/common';
+import * as request from "supertest";
+import { Test, TestingModule } from "@nestjs/testing";
+import { INestApplication, ValidationPipe } from "@nestjs/common";
 
-import { TestModule } from '../../../services/test/test.module';
-import { TestService } from '../../../services/test/test.service';
-import { LoginController } from './login.controller';
-import { AuthModule } from '../../../services/auth/auth.module';
+import { TestModule } from "../../../services/test/test.module";
+import { TestService } from "../../../services/test/test.service";
+import { LoginController } from "./login.controller";
+import { AuthModule } from "../../../services/auth/auth.module";
 
-import { AccessToken } from '../../../entities/AccessToken.entity';
-import { RefreshToken } from '../../../entities/RefreshToken.entity';
+import { AccessToken } from "../../../entities/AccessToken.entity";
+import { RefreshToken } from "../../../entities/RefreshToken.entity";
 
-import * as fixtures from '../../../services/test/fixtures';
+import * as fixtures from "../../../services/test/fixtures";
 
-describe('Login Controller', () => {
+describe("Login Controller", () => {
     let app: INestApplication;
     let testService: TestService;
 
@@ -33,10 +33,10 @@ describe('Login Controller', () => {
         await testService.reloadFixtures();
     });
 
-    it('/POST auth/login - should login user1', async () => {
+    it("/POST auth/login - should login user1", async () => {
         const body = {
             username: fixtures.user1.username,
-            password: 'testPassword'
+            password: "testPassword"
         };
 
         const refreshTokenCountBefore = await RefreshToken.count({ user: fixtures.user1 });
@@ -45,10 +45,7 @@ describe('Login Controller', () => {
         const accessTokenCountBefore = await AccessToken.count({ user: fixtures.user1 });
         expect(accessTokenCountBefore).toEqual(1);
 
-        const response = await request(app.getHttpServer())
-            .post('/api/v1/auth/login')
-            .send(body)
-            .expect(201);
+        const response = await request(app.getHttpServer()).post("/api/v1/auth/login").send(body).expect(201);
 
         const refreshTokenCountAfter = await RefreshToken.count({ user: fixtures.user1 });
         expect(refreshTokenCountAfter).toEqual(refreshTokenCountBefore + 1);
@@ -56,13 +53,13 @@ describe('Login Controller', () => {
         const accessTokenCountAfter = await AccessToken.count({ user: fixtures.user1 });
         expect(accessTokenCountAfter).toEqual(accessTokenCountBefore + 1);
 
-        const credentials = testService.replaceValues(response.body, ['UUID', 'DATE']);
-        expect(credentials).toMatchSnapshot('LoginUser1');
+        const credentials = testService.replaceValues(response.body, ["UUID", "DATE"]);
+        expect(credentials).toMatchSnapshot("LoginUser1");
     });
 
-    it('/POST auth/login - should throw error for missing username', async () => {
+    it("/POST auth/login - should throw error for missing username", async () => {
         const body = {
-            password: 'testPassword'
+            password: "testPassword"
         };
 
         const refreshTokenCountBefore = await RefreshToken.count({ user: fixtures.user1 });
@@ -71,10 +68,7 @@ describe('Login Controller', () => {
         const accessTokenCountBefore = await AccessToken.count({ user: fixtures.user1 });
         expect(accessTokenCountBefore).toEqual(1);
 
-        const response = await request(app.getHttpServer())
-            .post('/api/v1/auth/login')
-            .send(body)
-            .expect(401);
+        const response = await request(app.getHttpServer()).post("/api/v1/auth/login").send(body).expect(401);
 
         const refreshTokenCountAfter = await RefreshToken.count({ user: fixtures.user1 });
         expect(refreshTokenCountAfter).toEqual(refreshTokenCountBefore);
@@ -82,13 +76,13 @@ describe('Login Controller', () => {
         const accessTokenCountAfter = await AccessToken.count({ user: fixtures.user1 });
         expect(accessTokenCountAfter).toEqual(accessTokenCountBefore);
 
-        const credentials = testService.replaceValues(response.body, ['UUID', 'DATE']);
-        expect(credentials).toMatchSnapshot('LoginMissingUsernameError');
+        const credentials = testService.replaceValues(response.body, ["UUID", "DATE"]);
+        expect(credentials).toMatchSnapshot("LoginMissingUsernameError");
     });
 
-    it('/POST auth/login - should throw error for missing password', async () => {
+    it("/POST auth/login - should throw error for missing password", async () => {
         const body = {
-            username: fixtures.user1.username,
+            username: fixtures.user1.username
         };
 
         const refreshTokenCountBefore = await RefreshToken.count({ user: fixtures.user1 });
@@ -97,10 +91,7 @@ describe('Login Controller', () => {
         const accessTokenCountBefore = await AccessToken.count({ user: fixtures.user1 });
         expect(accessTokenCountBefore).toEqual(1);
 
-        const response = await request(app.getHttpServer())
-            .post('/api/v1/auth/login')
-            .send(body)
-            .expect(401);
+        const response = await request(app.getHttpServer()).post("/api/v1/auth/login").send(body).expect(401);
 
         const refreshTokenCountAfter = await RefreshToken.count({ user: fixtures.user1 });
         expect(refreshTokenCountAfter).toEqual(refreshTokenCountBefore);
@@ -108,14 +99,14 @@ describe('Login Controller', () => {
         const accessTokenCountAfter = await AccessToken.count({ user: fixtures.user1 });
         expect(accessTokenCountAfter).toEqual(accessTokenCountBefore);
 
-        const credentials = testService.replaceValues(response.body, ['UUID', 'DATE']);
-        expect(credentials).toMatchSnapshot('LoginMissingPasswordError');
+        const credentials = testService.replaceValues(response.body, ["UUID", "DATE"]);
+        expect(credentials).toMatchSnapshot("LoginMissingPasswordError");
     });
 
-    it('/POST auth/login - should return an error for a not existing username', async () => {
+    it("/POST auth/login - should return an error for a not existing username", async () => {
         const body = {
-            username: 'notExisting',
-            password: 'testPassword'
+            username: "notExisting",
+            password: "testPassword"
         };
 
         const refreshTokenCountBefore = await RefreshToken.count({ user: fixtures.user1 });
@@ -124,10 +115,7 @@ describe('Login Controller', () => {
         const accessTokenCountBefore = await AccessToken.count({ user: fixtures.user1 });
         expect(accessTokenCountBefore).toEqual(1);
 
-        const response = await request(app.getHttpServer())
-            .post('/api/v1/auth/login')
-            .send(body)
-            .expect(401);
+        const response = await request(app.getHttpServer()).post("/api/v1/auth/login").send(body).expect(401);
 
         const refreshTokenCountAfter = await RefreshToken.count({ user: fixtures.user1 });
         expect(refreshTokenCountAfter).toEqual(refreshTokenCountBefore);
@@ -135,14 +123,14 @@ describe('Login Controller', () => {
         const accessTokenCountAfter = await AccessToken.count({ user: fixtures.user1 });
         expect(accessTokenCountAfter).toEqual(accessTokenCountBefore);
 
-        const credentials = testService.replaceValues(response.body, ['UUID', 'DATE']);
-        expect(credentials).toMatchSnapshot('LoginNotExistingUserError');
+        const credentials = testService.replaceValues(response.body, ["UUID", "DATE"]);
+        expect(credentials).toMatchSnapshot("LoginNotExistingUserError");
     });
 
-    it('/POST auth/login - should return an error for a wrong password', async () => {
+    it("/POST auth/login - should return an error for a wrong password", async () => {
         const body = {
             username: fixtures.user1.username,
-            password: 'wrongPassword'
+            password: "wrongPassword"
         };
 
         const refreshTokenCountBefore = await RefreshToken.count({ user: fixtures.user1 });
@@ -151,10 +139,7 @@ describe('Login Controller', () => {
         const accessTokenCountBefore = await AccessToken.count({ user: fixtures.user1 });
         expect(accessTokenCountBefore).toEqual(1);
 
-        const response = await request(app.getHttpServer())
-            .post('/api/v1/auth/login')
-            .send(body)
-            .expect(401);
+        const response = await request(app.getHttpServer()).post("/api/v1/auth/login").send(body).expect(401);
 
         const refreshTokenCountAfter = await RefreshToken.count({ user: fixtures.user1 });
         expect(refreshTokenCountAfter).toEqual(refreshTokenCountBefore);
@@ -162,14 +147,14 @@ describe('Login Controller', () => {
         const accessTokenCountAfter = await AccessToken.count({ user: fixtures.user1 });
         expect(accessTokenCountAfter).toEqual(accessTokenCountBefore);
 
-        const credentials = testService.replaceValues(response.body, ['UUID', 'DATE']);
-        expect(credentials).toMatchSnapshot('LoginWrongPasswordError');
+        const credentials = testService.replaceValues(response.body, ["UUID", "DATE"]);
+        expect(credentials).toMatchSnapshot("LoginWrongPasswordError");
     });
 
-    it('/POST auth/login - should return an error for a missing permission scope (user2)', async () => {
+    it("/POST auth/login - should return an error for a missing permission scope (user2)", async () => {
         const body = {
             username: fixtures.user2.username,
-            password: 'testPassword'
+            password: "testPassword"
         };
 
         const refreshTokenCountBefore = await RefreshToken.count({ user: fixtures.user1 });
@@ -178,10 +163,7 @@ describe('Login Controller', () => {
         const accessTokenCountBefore = await AccessToken.count({ user: fixtures.user1 });
         expect(accessTokenCountBefore).toEqual(1);
 
-        const response = await request(app.getHttpServer())
-            .post('/api/v1/auth/login')
-            .send(body)
-            .expect(401);
+        const response = await request(app.getHttpServer()).post("/api/v1/auth/login").send(body).expect(401);
 
         const refreshTokenCountAfter = await RefreshToken.count({ user: fixtures.user1 });
         expect(refreshTokenCountAfter).toEqual(refreshTokenCountBefore);
@@ -189,7 +171,7 @@ describe('Login Controller', () => {
         const accessTokenCountAfter = await AccessToken.count({ user: fixtures.user1 });
         expect(accessTokenCountAfter).toEqual(accessTokenCountBefore);
 
-        const credentials = testService.replaceValues(response.body, ['UUID', 'DATE']);
-        expect(credentials).toMatchSnapshot('MissingPermissionScopeUser2');
+        const credentials = testService.replaceValues(response.body, ["UUID", "DATE"]);
+        expect(credentials).toMatchSnapshot("MissingPermissionScopeUser2");
     });
 });

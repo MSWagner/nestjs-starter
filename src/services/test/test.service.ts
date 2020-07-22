@@ -1,21 +1,21 @@
-import * as _ from 'lodash';
-import * as moment from 'moment';
-import { isUuid } from 'uuidv4';
+import * as _ from "lodash";
+import * as moment from "moment";
+import { isUuid } from "uuidv4";
 
-import { Injectable } from '@nestjs/common';
-import { getConnection, EntityManager } from 'typeorm';
+import { Injectable } from "@nestjs/common";
+import { getConnection, EntityManager } from "typeorm";
 
-import { fixtureTrees } from './fixtures';
+import { fixtureTrees } from "./fixtures";
 
-export type REPLACE_TYPE = 'DATE' | 'UUID';
+export type REPLACE_TYPE = "DATE" | "UUID";
 
 @Injectable()
 export class TestService {
     connectionManager: EntityManager;
 
     constructor() {
-        if (process.env.NODE_ENV !== 'test') {
-            throw new Error('ERROR-TEST-UTILS-ONLY-FOR-TESTS');
+        if (process.env.NODE_ENV !== "test") {
+            throw new Error("ERROR-TEST-UTILS-ONLY-FOR-TESTS");
         }
 
         this.connectionManager = getConnection().manager;
@@ -34,8 +34,12 @@ export class TestService {
      */
     async getEntities() {
         const entities = [];
-        (await (await this.connectionManager.connection).entityMetadatas).forEach(
-            x => entities.push({ name: x.name, tableName: x.tableName, order: this.getOrder(x.name) })
+        (await (await this.connectionManager.connection).entityMetadatas).forEach((x) =>
+            entities.push({
+                name: x.name,
+                tableName: x.tableName,
+                order: this.getOrder(x.name)
+            })
         );
 
         return entities;
@@ -46,7 +50,7 @@ export class TestService {
      */
     async reloadFixtures() {
         const entities = await this.getEntities();
-        const entitiesWithFixtures = entities.filter(entity => Object.keys(fixtureTrees).indexOf(entity.name) !== -1);
+        const entitiesWithFixtures = entities.filter((entity) => Object.keys(fixtureTrees).indexOf(entity.name) !== -1);
 
         await this.cleanAll(entitiesWithFixtures);
         await this.loadAll(entitiesWithFixtures);
@@ -72,17 +76,12 @@ export class TestService {
      */
     async loadAll(entities: any[]) {
         for (const entity of entities.sort((a, b) => a.order - b.order)) {
-
             try {
                 const repository = await this.connectionManager.getRepository(entity.name);
 
                 const items = fixtureTrees[entity.name];
 
-                await repository
-                    .createQueryBuilder(entity.name)
-                    .insert()
-                    .values(items)
-                    .execute();
+                await repository.createQueryBuilder(entity.name).insert().values(items).execute();
             } catch (error) {
                 // Entity not included in the fixtures. But this should not be necessary!
                 // throw new Error(`ERROR [TestUtils.loadAll()]: Loading fixtures on test db: ${error}`);
@@ -91,17 +90,16 @@ export class TestService {
     }
 
     replaceUUIDs(object) {
-        return this.replaceValues(object, ['UUID']);
+        return this.replaceValues(object, ["UUID"]);
     }
 
     replaceDates(object) {
-        return this.replaceValues(object, ['DATE']);
+        return this.replaceValues(object, ["DATE"]);
     }
 
     replaceValues(object, types: REPLACE_TYPE[]) {
         if (_.isArray(object)) {
             object.forEach((arrayObject, index) => {
-
                 const result = this.replaceValues(arrayObject, types);
                 object[index] = result;
             });
@@ -109,12 +107,12 @@ export class TestService {
             return object;
         }
 
-        if (types.includes('DATE') && this.isDate(object)) {
-            return 'DATE';
+        if (types.includes("DATE") && this.isDate(object)) {
+            return "DATE";
         }
 
-        if (types.includes('UUID') && isUuid(object)) {
-            return 'UUID';
+        if (types.includes("UUID") && isUuid(object)) {
+            return "UUID";
         }
 
         if (!_.isObject(object)) {
@@ -123,16 +121,16 @@ export class TestService {
 
         const keys = _.keys(object);
 
-        keys.forEach(key => {
+        keys.forEach((key) => {
             if (this.isObjectWithKeys(object[key])) {
                 this.replaceValues(object[key], types);
             }
 
-            if (types.includes('DATE') && this.isDate(object[key])) {
+            if (types.includes("DATE") && this.isDate(object[key])) {
                 object[key] = key;
             }
 
-            if (types.includes('UUID') && isUuid(object[key])) {
+            if (types.includes("UUID") && isUuid(object[key])) {
                 object[key] = key;
             }
         });
@@ -143,18 +141,20 @@ export class TestService {
     isObjectWithKeys(object) {
         const keysOfKey = _.keys(object);
 
-        return (!_.isNil(object) && !_.isNil(keysOfKey) && keysOfKey.length > 0);
+        return !_.isNil(object) && !_.isNil(keysOfKey) && keysOfKey.length > 0;
     }
 
     isDate(object) {
-        if (_.isInteger(object)) { return false; }
+        if (_.isInteger(object)) {
+            return false;
+        }
 
         let date;
         if (!_.isObject(object)) {
-            date = moment(object, 'YYYY-MM-DD hh:mm:ss.f');
+            date = moment(object, "YYYY-MM-DD hh:mm:ss.f");
         }
 
-        if (_.isDate(object) || !_.isNil(date) && date.isValid() && date.year() >= 1970) {
+        if (_.isDate(object) || (!_.isNil(date) && date.isValid() && date.year() >= 1970)) {
             return true;
         }
 

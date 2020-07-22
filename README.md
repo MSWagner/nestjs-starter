@@ -6,7 +6,7 @@
 [travis-url]: https://travis-ci.org/nestjs/nest
 [linux-image]: https://img.shields.io/travis/nestjs/nest/master.svg?label=linux
 [linux-url]: https://travis-ci.org/nestjs/nest
-  
+
   <p align="center">A progressive <a href="http://nodejs.org" target="blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
     <p align="center">
 <a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
@@ -30,16 +30,17 @@
 
 # Start
 
-Replace the string <b><i>'project-name'</i></b> in all files of the project with your own project name. 
+Replace the string <b><i>'project-name'</i></b> in all files of the project with your own project name.
 (For example with the search/replace function from visual studio code)
 
 <b>Files to edit:</b>
-- docker-compose.yml
-- docker-compose-dev.yml
-- docker-compose-test.yml
-- prod.env
-- dev.env
-- test.env
+
+-   docker-compose.yml
+-   docker-compose-dev.yml
+-   docker-compose-test.yml
+-   prod.env
+-   dev.env
+-   test.env
 
 <b>Important to avoid docker container naming conflicts!</b>
 
@@ -59,7 +60,7 @@ $ yarn build
 $ docker-compose -f 'docker-compose-dev.yml' up
 
 # start first migration to create the db tables
-$ yarn db:migrate:dev 
+$ yarn db:migrate:dev
 
 # development
 $ yarn start
@@ -78,7 +79,7 @@ $ yarn start:prod
 $ docker-compose -f 'docker-compose-test.yml' up
 
 # start first migration to create the db tables
-$ yarn db:migrate:test 
+$ yarn db:migrate:test
 
 # unit tests
 $ yarn test
@@ -96,7 +97,8 @@ $ yarn test:cov
 # Deployment
 
 ## First Start
-- To create a docker image + container with the app & database.
+
+-   To create a docker image + container with the app & database.
 
 ```bash
 # create network to connect the app with the db
@@ -110,7 +112,8 @@ $ docker-compose exec app yarn db:migrate:prod
 ```
 
 ## Docker App Update
-- To update the docker image and start the new docker container
+
+-   To update the docker image and start the new docker container
 
 ```bash
 $ docker build -t project-name .
@@ -118,7 +121,8 @@ $ docker-compose up -d
 ```
 
 ## Docker Migration
-- To run new migrations
+
+-   To run new migrations
 
 ```bash
 # start migrations
@@ -131,10 +135,10 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 ## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+-   Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
+-   Website - [https://nestjs.com](https://nestjs.com/)
+-   Twitter - [@nestframework](https://twitter.com/nestframework)
 
 ## License
 
-  Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).

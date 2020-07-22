@@ -1,14 +1,14 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { TestService } from './test.service';
-import { DatabaseModule } from '../database/database.module';
+import { Test, TestingModule } from "@nestjs/testing";
+import { TestService } from "./test.service";
+import { DatabaseModule } from "../database/database.module";
 
-import { User } from '../../entities/User.entity';
-import { AccessToken } from '../../entities/AccessToken.entity';
-import { RefreshToken } from '../../entities/RefreshToken.entity';
+import { User } from "../../entities/User.entity";
+import { AccessToken } from "../../entities/AccessToken.entity";
+import { RefreshToken } from "../../entities/RefreshToken.entity";
 
-import { fixtureTrees } from './fixtures';
+import { fixtureTrees } from "./fixtures";
 
-describe('TestService', () => {
+describe("TestService", () => {
     let service: TestService;
 
     beforeEach(async () => {
@@ -20,37 +20,37 @@ describe('TestService', () => {
         service = module.get<TestService>(TestService);
     });
 
-    it('should check the orderIds of the User, AccessToken & RefreshToken entities', () => {
-        const userOrder = service.getOrder('User');
-        const refreshTokenOrder = service.getOrder('RefreshToken');
-        const accessTokenOrder = service.getOrder('AccessToken');
+    it("should check the orderIds of the User, AccessToken & RefreshToken entities", () => {
+        const userOrder = service.getOrder("User");
+        const refreshTokenOrder = service.getOrder("RefreshToken");
+        const accessTokenOrder = service.getOrder("AccessToken");
 
         expect(userOrder).toEqual(1);
         expect(refreshTokenOrder).toEqual(3);
         expect(accessTokenOrder).toEqual(4);
     });
 
-    it('should return all entities', async () => {
+    it("should return all entities", async () => {
         const entities = await service.getEntities();
 
-        expect(entities).toMatchSnapshot('DatabaseEntitiyList');
+        expect(entities).toMatchSnapshot("DatabaseEntitiyList");
     });
 
-    it('should reload the fixtures without a additional user from before', async () => {
+    it("should reload the fixtures without a additional user from before", async () => {
         const newUser = new User();
-        newUser.username = 'TestUser';
+        newUser.username = "TestUser";
         await newUser.save();
 
-        const newUserCountBefore = await User.count({ username: 'TestUser' });
+        const newUserCountBefore = await User.count({ username: "TestUser" });
         expect(newUserCountBefore).toEqual(1);
 
         await service.reloadFixtures();
 
-        const newUserCountAfter = await User.count({ username: 'TestUser' });
+        const newUserCountAfter = await User.count({ username: "TestUser" });
         expect(newUserCountAfter).toEqual(0);
     });
 
-    it('should remove all fixtures & load them again into the db', async () => {
+    it("should remove all fixtures & load them again into the db", async () => {
         const userCountBefore = await User.count();
         expect(userCountBefore).toEqual(fixtureTrees.User.length);
 
@@ -84,72 +84,72 @@ describe('TestService', () => {
         expect(accessTokenCountAfterLoad).toEqual(fixtureTrees.AccessToken.length);
     });
 
-    it('should replace all uuids in the object', async () => {
+    it("should replace all uuids in the object", async () => {
         const object = [
             {
                 test: {
-                    i1: 'd3fd0451-ec15-4f60-8e64-9142c4ab3a89',
-                }, test2: [[
-                    { test3: '020bf68b-23bd-42b6-92b9-c6e0e897eb8f' }, '757d21f0-f72c-4dc4-a6d4-badd1305ea7a'
-                ]]
-            }, '44218412-bfe7-4c70-aeca-276c0fcf099e',
+                    i1: "d3fd0451-ec15-4f60-8e64-9142c4ab3a89"
+                },
+                test2: [[{ test3: "020bf68b-23bd-42b6-92b9-c6e0e897eb8f" }, "757d21f0-f72c-4dc4-a6d4-badd1305ea7a"]]
+            },
+            "44218412-bfe7-4c70-aeca-276c0fcf099e",
             {
                 test: {
-                    i1: '2019-09-28 15:26:33.186',
-                }, test2: [[
-                    { test3: '2019-09-28 15:26:33.186' }, '2019-09-28 15:26:33.186'
-                ]]
-            }, '2019-09-28 15:26:33.186'
+                    i1: "2019-09-28 15:26:33.186"
+                },
+                test2: [[{ test3: "2019-09-28 15:26:33.186" }, "2019-09-28 15:26:33.186"]]
+            },
+            "2019-09-28 15:26:33.186"
         ];
 
         const replacedObject = service.replaceUUIDs(object);
 
-        expect(replacedObject).toMatchSnapshot('UUIDsReplaced');
+        expect(replacedObject).toMatchSnapshot("UUIDsReplaced");
     });
 
-    it('should replace all dates in the object', async () => {
+    it("should replace all dates in the object", async () => {
         const object = [
             {
                 test: {
-                    i1: 'd3fd0451-ec15-4f60-8e64-9142c4ab3a89',
-                }, test2: [[
-                    { test3: '020bf68b-23bd-42b6-92b9-c6e0e897eb8f' }, '757d21f0-f72c-4dc4-a6d4-badd1305ea7a'
-                ]]
-            }, '44218412-bfe7-4c70-aeca-276c0fcf099e',
+                    i1: "d3fd0451-ec15-4f60-8e64-9142c4ab3a89"
+                },
+                test2: [[{ test3: "020bf68b-23bd-42b6-92b9-c6e0e897eb8f" }, "757d21f0-f72c-4dc4-a6d4-badd1305ea7a"]]
+            },
+            "44218412-bfe7-4c70-aeca-276c0fcf099e",
             {
                 test: {
-                    i1: '2019-09-28 15:26:33.186',
-                }, test2: [[
-                    { test3: '2019-09-28 15:26:33.186' }, '2019-09-28 15:26:33.186'
-                ]]
-            }, '2019-09-28 15:26:33.186'
+                    i1: "2019-09-28 15:26:33.186"
+                },
+                test2: [[{ test3: "2019-09-28 15:26:33.186" }, "2019-09-28 15:26:33.186"]]
+            },
+            "2019-09-28 15:26:33.186"
         ];
 
         const replacedObject = service.replaceDates(object);
 
-        expect(replacedObject).toMatchSnapshot('DateReplaced');
+        expect(replacedObject).toMatchSnapshot("DateReplaced");
     });
 
-    it('should replace all dates & uuids in the object', async () => {
+    it("should replace all dates & uuids in the object", async () => {
         const object = [
             {
                 test: {
-                    i1: 'd3fd0451-ec15-4f60-8e64-9142c4ab3a89',
-                }, test2: [[
-                    { test3: '020bf68b-23bd-42b6-92b9-c6e0e897eb8f' }, '757d21f0-f72c-4dc4-a6d4-badd1305ea7a'
-                ]]
-            }, '44218412-bfe7-4c70-aeca-276c0fcf099e',
+                    i1: "d3fd0451-ec15-4f60-8e64-9142c4ab3a89"
+                },
+                test2: [[{ test3: "020bf68b-23bd-42b6-92b9-c6e0e897eb8f" }, "757d21f0-f72c-4dc4-a6d4-badd1305ea7a"]]
+            },
+            "44218412-bfe7-4c70-aeca-276c0fcf099e",
             {
                 test: {
-                    i1: '2019-09-28 15:26:33.186',
-                }, test2: [[
-                    { test3: '2019-09-28 15:26:33.186' }, '2019-09-28 15:26:33.186'
-                ]]
-            }, '2019-09-28 15:26:33.186'
+                    i1: "2019-09-28 15:26:33.186"
+                },
+                test2: [[{ test3: "2019-09-28 15:26:33.186" }, "2019-09-28 15:26:33.186"]]
+            },
+            "2019-09-28 15:26:33.186"
         ];
 
-        const replacedObject = service.replaceValues(object, ['DATE', 'UUID']);
+        const replacedObject = service.replaceValues(object, ["DATE", "UUID"]);
 
-        expect(replacedObject).toMatchSnapshot('ReplaceDateAndUUIDs');
+        expect(replacedObject).toMatchSnapshot("ReplaceDateAndUUIDs");
     });
 });

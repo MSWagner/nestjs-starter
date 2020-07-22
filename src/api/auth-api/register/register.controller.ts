@@ -1,34 +1,31 @@
-import { Controller, Body, Post, HttpException, HttpStatus } from '@nestjs/common';
-import { ApiTags, ApiCreatedResponse } from '@nestjs/swagger';
+import { Controller, Body, Post, HttpException, HttpStatus } from "@nestjs/common";
+import { ApiTags, ApiCreatedResponse } from "@nestjs/swagger";
 
-import { AuthService } from '../../../services/auth/auth.service';
-import { RegisterDto, RegisterResponse } from './_types';
+import { AuthService } from "../../../services/auth/auth.service";
+import { RegisterDto, RegisterResponse } from "./_types";
 
-import { CONFIG } from '../../../configure';
+import { CONFIG } from "../../../configure";
 
-@ApiTags('auth')
-@Controller('api/v1/auth/register')
+@ApiTags("auth")
+@Controller("api/v1/auth/register")
 export class RegisterController {
-
-    constructor(
-        private readonly authService: AuthService,
-    ) { }
+    constructor(private readonly authService: AuthService) {}
 
     @Post()
-    @ApiCreatedResponse({ description: 'The user has been successfully created.', type: RegisterResponse })
+    @ApiCreatedResponse({ description: "The user has been successfully created.", type: RegisterResponse })
     async handler(@Body() requestDto: RegisterDto) {
         try {
             const newUser = await this.authService.register(requestDto.username, requestDto.password);
             const tokens = await this.authService.generateToken(newUser);
 
             return {
-                tokenType: 'Bearer',
+                tokenType: "Bearer",
                 expiresIn: CONFIG.auth.tokenValidity,
                 accessToken: tokens.accessToken.token,
                 refreshToken: tokens.refreshToken.token
             };
         } catch (err) {
-            throw new HttpException('User with the given username already exists', HttpStatus.CONFLICT);
+            throw new HttpException("User with the given username already exists", HttpStatus.CONFLICT);
         }
     }
 }

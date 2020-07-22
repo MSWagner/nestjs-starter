@@ -1,7 +1,7 @@
-import { Strategy } from 'passport-http-bearer';
-import { PassportStrategy } from '@nestjs/passport';
-import { Injectable } from '@nestjs/common';
-import { AuthService } from '../auth.service';
+import { Strategy } from "passport-http-bearer";
+import { PassportStrategy } from "@nestjs/passport";
+import { Injectable } from "@nestjs/common";
+import { AuthService } from "../auth.service";
 
 @Injectable()
 export class BearerStrategy extends PassportStrategy(Strategy) {
@@ -10,6 +10,6 @@ export class BearerStrategy extends PassportStrategy(Strategy) {
     }
 
     async validate(token: string) {
-        return this.authService.validateToken(token, ['user']);
+        return this.authService.validateToken(token, ["user"]);
     }
 }

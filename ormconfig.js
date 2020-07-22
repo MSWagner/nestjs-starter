@@ -1,5 +1,5 @@
 module.exports = {
-    type: 'postgres',
+    type: "postgres",
     host: process.env.PGHOST,
     port: parseInt(process.env.PGPORT, 10),
     username: process.env.PGUSER,
@@ -7,5 +7,5 @@ module.exports = {
     database: process.env.PGDATABASE,
     migrations: ["src/migrations/*.ts"],
     cli: { migrationsDir: "src/migrations" },
-    entities: ["src/entities/**/*.entity.{ts,js}"],
- }
+    entities: ["src/entities/**/*.entity.{ts,js}"]
+};
