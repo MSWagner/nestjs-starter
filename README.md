@@ -44,6 +44,20 @@ Replace the string <b><i>'project-name'</i></b> in all files of the project with
 
 <b>Important to avoid docker container naming conflicts!</b>
 
+## Create or edit your local .env file
+
+Set up the environment variable [COMPOSE_FILE](https://docs.docker.com/compose/reference/envvars/#compose_file) to avoid the 'Found orphan containers' warning:
+
+MacOS:
+```
+COMPOSE_FILE=docker-compose.yml:docker-compose-dev.yml:docker-compose-test.yml
+```
+
+Windows: 
+```
+COMPOSE_FILE=docker-compose.yml;docker-compose-dev.yml;docker-compose-test.yml
+```
+
 ## Installation
 
 ```bash
