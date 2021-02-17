@@ -13,7 +13,7 @@ exports[`RefreshToken Controller /POST auth/refresh - should throw error for mis
 Object {
   "error": "Bad Request",
   "message": Array [
-    "refreshToken must be an UUID",
+    "refreshToken must be a UUID",
   ],
   "statusCode": 400,
 }
@@ -23,7 +23,7 @@ exports[`RefreshToken Controller /POST auth/refresh - should throw error for wro
 Object {
   "error": "Bad Request",
   "message": Array [
-    "refreshToken must be an UUID",
+    "refreshToken must be a UUID",
   ],
   "statusCode": 400,
 }
