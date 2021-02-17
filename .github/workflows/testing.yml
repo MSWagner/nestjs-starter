@@ -1,10 +1,10 @@
-name: Test
+name: Testing
 
 on: [push, pull_request]
 
 jobs:
   test:
-    name: Test
+    name: Testing
     runs-on: ubuntu-latest
 
     steps:
@@ -15,7 +15,7 @@ jobs:
       - name: Check running containers
         run: docker ps -a
       - name: Check logs
-        run: docker logs ananas-dark-backend-postgres-test
+        run: docker logs project-name-postgres-test
 
       - name: Use Node.js
         uses: actions/setup-node@v1
