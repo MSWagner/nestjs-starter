@@ -51,13 +51,15 @@ Replace the string <b><i>'project-name'</i></b> in all files of the project with
 Set up the environment variable [COMPOSE_FILE](https://docs.docker.com/compose/reference/envvars/#compose_file) to avoid the 'Found orphan containers' warning:
 
 MacOS:
+
 ```
-COMPOSE_FILE=docker-compose.yml:docker-compose-dev.yml:docker-compose-test.yml
+COMPOSE_FILE=docker-compose-prod.yml:docker-compose-dev.yml:docker-compose-test.yml
 ```
 
-Windows: 
+Windows:
+
 ```
-COMPOSE_FILE=docker-compose.yml;docker-compose-dev.yml;docker-compose-test.yml
+COMPOSE_FILE=docker-compose-prod.yml;docker-compose-dev.yml;docker-compose-test.yml
 ```
 
 ## Installation
@@ -121,7 +123,7 @@ $ yarn test:cov
 $ docker network create project-name-network
 
 # build the docker image, create & run the app/db container in detached mode (background)
-$ docker-compose up -d
+$ docker-compose -f 'docker-compose-prod.yml' up -d
 
 # init tables with migration
 $ docker-compose exec app yarn db:migrate:prod
