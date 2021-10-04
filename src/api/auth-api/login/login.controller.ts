@@ -5,7 +5,7 @@ import { ApiBody, ApiCreatedResponse, ApiTags } from "@nestjs/swagger";
 import { AuthService } from "../../../services/auth/auth.service";
 import { LoginDto, LoginResponse } from "./_types";
 
-import { CONFIG } from "../../../configure";
+import { CONFIG } from "../../../config";
 
 @ApiTags("auth")
 @Controller("api/v1/auth/login")

@@ -12,7 +12,7 @@ import { AccessToken } from "../../entities/AccessToken.entity";
 import { RefreshToken } from "../../entities/RefreshToken.entity";
 import { PermissionScope } from "../../entities/Permission.entity";
 
-import { CONFIG } from "../../configure";
+import { CONFIG } from "../../config";
 
 @Injectable()
 export class AuthService {

@@ -4,7 +4,7 @@ import { Injectable, Inject } from "@nestjs/common";
 
 import { User } from "../../entities/User.entity";
 
-import CONFIG from "../../configure";
+import CONFIG from "../../config";
 
 @Injectable()
 export class UserService {

@@ -1,7 +1,7 @@
 import { Connection } from "typeorm";
 import { User } from "../../entities/User.entity";
 
-import CONFIG from "../../configure";
+import CONFIG from "../../config";
 
 export const userProviders = [
     {

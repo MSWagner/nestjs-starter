@@ -1,6 +1,6 @@
 import { createConnection, getConnection, getConnectionManager } from "typeorm";
 
-import CONFIG from "../../configure";
+import CONFIG from "../../config";
 
 export const DatabaseProvider = {
     provide: CONFIG.database.defaultConnectionName,

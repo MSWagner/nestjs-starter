@@ -1,7 +1,7 @@
 import { Connection } from "typeorm";
 import { AccessToken } from "../../../entities/AccessToken.entity";
 
-import CONFIG from "../../../configure";
+import CONFIG from "../../../config";
 
 export const accessTokenProviders = [
     {

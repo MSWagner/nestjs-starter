@@ -1,7 +1,7 @@
 import { Connection } from "typeorm";
 import { RefreshToken } from "../../../entities/RefreshToken.entity";
 
-import CONFIG from "../../../configure";
+import CONFIG from "../../../config";
 
 export const refreshTokenProviders = [
     {
