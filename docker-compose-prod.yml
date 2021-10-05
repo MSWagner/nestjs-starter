@@ -1,8 +1,5 @@
 version: "3"
 
-volumes:
-    project-name-database: {}
-
 services:
     db:
         container_name: project-name-postgres-prod
@@ -20,6 +17,7 @@ services:
 
     app:
         container_name: project-name-app-prod
+        command: yarn start:prod
         environment:
             - NODE_ENV=production
             - PGHOST=db
@@ -42,3 +40,6 @@ services:
 networks:
     project-name-network:
         external: true
+
+volumes:
+    project-name-database: {}

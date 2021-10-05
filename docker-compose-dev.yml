@@ -1,6 +1,7 @@
 version: "3"
+
 services:
-    DevDB:
+    devDB:
         container_name: project-name-postgres-dev
         image: postgres:10-alpine
         ports:
@@ -10,4 +11,35 @@ services:
             - POSTGRES_PASSWORD=toor
             - POSTGRES_DB=project-name-dev-db
         volumes:
-            - ./docker-volumes/postgresql-dev:/var/lib/postgresql
+            - project-name-database-dev:/var/lib/postgresql/data
+        networks:
+            - project-name-network-dev
+
+    app:
+        container_name: project-name-app-dev
+        command: yarn start:dev
+        environment:
+            - NODE_ENV=development
+            - PGHOST=devDB
+            - PGPORT=5432
+            - PGUSER=root
+            - PGPASSWORD=toor
+            - PGDATABASE=project-name-dev-db
+        image: project-name-dev:latest
+        restart: always
+        ports:
+            - "3000:3000"
+        build:
+            context: .
+            dockerfile: Dockerfile
+        networks:
+            - project-name-network-dev
+        depends_on:
+            - devDB
+
+networks:
+    project-name-network-dev:
+        external: true
+
+volumes:
+    project-name-database-dev: {}

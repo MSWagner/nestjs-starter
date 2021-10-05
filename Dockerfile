@@ -18,5 +18,3 @@ RUN yarn tsc
 
 # Finally copy in all workspace files
 COPY . /app/
-
-CMD [ "yarn", "start:prod" ]
