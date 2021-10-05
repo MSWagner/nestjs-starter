@@ -8,7 +8,7 @@ import { LoginDto, LoginResponse } from "./_types";
 import { CONFIG } from "../../../config";
 
 @ApiTags("auth")
-@Controller("api/v1/auth/login")
+@Controller({ path: "auth/login", version: "1" })
 export class LoginController {
     constructor(private readonly authService: AuthService) {}
 

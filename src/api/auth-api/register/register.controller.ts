@@ -7,7 +7,7 @@ import { RegisterDto, RegisterResponse } from "./_types";
 import { CONFIG } from "../../../config";
 
 @ApiTags("auth")
-@Controller("api/v1/auth/register")
+@Controller({ path: "auth/register", version: "1" })
 export class RegisterController {
     constructor(private readonly authService: AuthService) {}
 

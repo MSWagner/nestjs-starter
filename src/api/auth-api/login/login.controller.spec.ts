@@ -1,6 +1,8 @@
 import * as request from "supertest";
 import { Test, TestingModule } from "@nestjs/testing";
-import { INestApplication, ValidationPipe } from "@nestjs/common";
+import { INestApplication } from "@nestjs/common";
+
+import { setupApp } from "../../../appSetup";
 
 import { TestModule } from "../../../services/test/test.module";
 import { TestService } from "../../../services/test/test.service";
@@ -25,7 +27,7 @@ describe("Login Controller", () => {
         testService = module.get<TestService>(TestService);
 
         app = module.createNestApplication();
-        app.useGlobalPipes(new ValidationPipe());
+        await setupApp(app);
         await app.init();
     });
 

@@ -9,7 +9,7 @@ import { RefreshTokenDto, RefreshTokenResponse } from "./_types";
 import { CONFIG } from "../../../config";
 
 @ApiTags("auth")
-@Controller("api/v1/auth/refresh")
+@Controller({ path: "auth/refresh", version: "1" })
 export class RefreshTokenController {
     constructor(private readonly authService: AuthService) {}
 
