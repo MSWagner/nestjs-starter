@@ -22,10 +22,10 @@ export const DatabaseProvider = {
                 password: process.env.PGPASSWORD,
                 database: process.env.PGDATABASE,
                 entities: [__dirname + "/../../**/*.entity.{ts,js}"],
-                migrations: [__dirname + "../../migrations/*.ts"],
-                cli: { migrationsDir: `${__dirname + "../../migrations"}` },
+                migrations: [__dirname + "/../../migrations/*.ts"],
+                cli: { migrationsDir: `${__dirname + "/../../migrations"}` },
                 synchronize: false,
-                logging: false // ['error'],
+                logging: CONFIG.env.isDevelopment ? ["info"] : false
             });
         }
     }
