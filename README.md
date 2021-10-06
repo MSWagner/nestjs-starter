@@ -38,8 +38,8 @@ Replace the string <b><i>'project-name'</i></b> in all files of the project with
 <b>Files to edit:</b>
 
 -   docker-compose.yml
--   docker-compose-dev.yml
--   docker-compose-test.yml
+-   docker-compose.dev.yml
+-   docker-compose.test.yml
 -   prod.env
 -   dev.env
 -   test.env
@@ -53,13 +53,13 @@ Set up the environment variable [COMPOSE_FILE](https://docs.docker.com/compose/r
 MacOS:
 
 ```
-COMPOSE_FILE=docker-compose-prod.yml:docker-compose-dev.yml:docker-compose-test.yml
+COMPOSE_FILE=docker-compose.prod.yml:docker-compose.dev.yml:docker-compose.test.yml
 ```
 
 Windows:
 
 ```
-COMPOSE_FILE=docker-compose-prod.yml;docker-compose-dev.yml;docker-compose-test.yml
+COMPOSE_FILE=docker-compose.prod.yml;docker-compose.dev.yml;docker-compose.test.yml
 ```
 
 ## Installation
@@ -75,7 +75,7 @@ $ yarn build
 
 ```bash
 # start dev database in docker container
-$ docker-compose -f 'docker-compose-dev.yml' up
+$ docker-compose -f 'docker-compose.dev.yml' up
 
 # start first migration to create the db tables
 $ yarn db:migrate:dev
@@ -94,7 +94,7 @@ $ yarn start:prod
 
 ```bash
 # start test database in docker container
-$ docker-compose -f 'docker-compose-test.yml' up
+$ docker-compose -f 'docker-compose.test.yml' up
 
 # start first migration to create the db tables
 $ yarn db:migrate:test
@@ -123,7 +123,7 @@ $ yarn test:cov
 $ docker network create project-name-network
 
 # build the docker image, create & run the app/db container in detached mode (background)
-$ docker-compose -f 'docker-compose-prod.yml' up -d
+$ docker-compose -f 'docker-compose.prod.yml' up -d
 
 # init tables with migration
 $ docker-compose exec app yarn db:migrate:prod
