@@ -1,6 +1,10 @@
 #!/bin/bash
 if [ "$1" = "--up" ]; then
-    docker-compose -f 'docker-compose.dev.yml' up
+    if [ "$2" = "-d" ]; then
+        docker-compose -f 'docker-compose.dev.yml' up -d
+    else 
+        docker-compose -f 'docker-compose.dev.yml' up
+    fi
 fi
 
 if [ "$1" = "--test" ]; then

@@ -31,6 +31,7 @@
         "db:generate:prod": "./node_modules/.bin/env-cmd --no-override --no-override -f ./env/prod.env ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:generate",
         "db:revert:prod": "./node_modules/.bin/env-cmd --no-override -f ./env/prod.env ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert",
         "docker:up": "./docker-dev-helper.sh --up",
+        "docker:up:hidden": "./docker-dev-helper.sh --up -d",
         "docker:test": "./docker-dev-helper.sh --test",
         "docker:bash": "./docker-dev-helper.sh --bash",
         "docker:stop": "./docker-dev-helper.sh --halt",
