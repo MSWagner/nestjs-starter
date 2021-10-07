@@ -8,7 +8,19 @@ if [ "$1" = "--up" ]; then
 fi
 
 if [ "$1" = "--migrate" ]; then
-    docker-compose -f 'docker-compose.dev.yml' exec -T app yarn ./node_modules/.bin/env-cmd --no-override -f ./env/test.docker.env ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run
+    declare -fx _Migrate_Method
+    _Migrate_Method() {
+        docker-compose -f 'docker-compose.dev.yml' exec -T app yarn db:migrate:test:docker
+    }
+    
+    ( _Migrate_Method; )
+    ERROR_CODE=$?
+    echo $ERROR_CODE
+    if [[ $ERROR_CODE -eq 0 ]]; then 
+        exit 0;
+    else
+        exit 1;
+    fi
 fi
 
 if [ "$1" = "--test" ]; then

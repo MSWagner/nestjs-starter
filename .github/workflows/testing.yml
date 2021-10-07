@@ -52,7 +52,7 @@ jobs:
         run: docker logs project-name-postgres-test
 
       - name: Run database migrations
-        run: yarn docker:db:migrate:test
+        run: yarn docker:db:migrate
 
       - name: Start tests in docker container
         run: yarn docker:test
