@@ -50,8 +50,9 @@ jobs:
         run: docker ps -a
       - name: Check logs
         run: docker logs project-name-postgres-test
+
       - name: Run database migrations
-        run: yarn db:migrate:test
+        run: yarn docker:db:migrate:test
 
       - name: Start tests in docker container
         run: yarn docker:test

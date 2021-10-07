@@ -32,6 +32,7 @@
         "db:revert:prod": "./node_modules/.bin/env-cmd --no-override -f ./env/prod.env ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert",
         "docker:up": "./docker-dev-helper.sh --up",
         "docker:up:hidden": "./docker-dev-helper.sh --up -d",
+        "docker:db:migrate:test": "./docker-dev-helper.sh --migrate",
         "docker:test": "./docker-dev-helper.sh --test",
         "docker:bash": "./docker-dev-helper.sh --bash",
         "docker:stop": "./docker-dev-helper.sh --halt",

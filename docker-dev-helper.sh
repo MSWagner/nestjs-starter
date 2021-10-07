@@ -7,6 +7,10 @@ if [ "$1" = "--up" ]; then
     fi
 fi
 
+if [ "$1" = "--migrate" ]; then
+    docker-compose -f 'docker-compose.dev.yml' exec app yarn ./node_modules/.bin/env-cmd --no-override -f ./env/test.docker.env ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run
+fi
+
 if [ "$1" = "--test" ]; then
     declare -fx _Test_Method
     _Test_Method() {
