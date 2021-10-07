@@ -35,6 +35,11 @@ describe("Login Controller", () => {
         await testService.reloadFixtures();
     });
 
+    afterAll((done) => {
+        testService.connectionManager.connection.close();
+        done();
+    });
+
     it("/POST auth/login - should login user1", async () => {
         const body = {
             username: fixtures.user1.username,

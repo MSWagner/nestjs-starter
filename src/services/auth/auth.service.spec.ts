@@ -32,6 +32,11 @@ describe("AuthService", () => {
         await testService.reloadFixtures();
     });
 
+    afterAll((done) => {
+        testService.connectionManager.connection.close();
+        done();
+    });
+
     it("should return new generated token for user1", async () => {
         const user1AccessTokenCount = await AccessToken.count({ where: { user: fixtures.user1.uid } });
         const user1RefreshTokenCount = await RefreshToken.count({ where: { user: fixtures.user1.uid } });

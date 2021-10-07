@@ -35,6 +35,11 @@ describe("RefreshToken Controller", () => {
         await testService.reloadFixtures();
     });
 
+    afterAll((done) => {
+        testService.connectionManager.connection.close();
+        done();
+    });
+
     it("/POST auth/refresh - should refresh the accessToken for user1", async () => {
         const body = {
             refreshToken: fixtures.refreshToken1.token

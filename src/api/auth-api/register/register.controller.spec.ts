@@ -34,6 +34,11 @@ describe("Register Controller", () => {
         await testService.reloadFixtures();
     });
 
+    afterAll((done) => {
+        testService.connectionManager.connection.close();
+        done();
+    });
+
     it("/POST auth/register - should register an new user", async () => {
         const registerBody = {
             username: "test1",

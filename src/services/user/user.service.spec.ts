@@ -25,6 +25,11 @@ describe("UserService", () => {
         await testService.reloadFixtures();
     });
 
+    afterAll((done) => {
+        testService.connectionManager.connection.close();
+        done();
+    });
+
     it("should find user1", async () => {
         const user1 = await service.findOne(fixtures.user1.username);
 
