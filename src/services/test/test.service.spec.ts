@@ -20,6 +20,11 @@ describe("TestService", () => {
         service = module.get<TestService>(TestService);
     });
 
+    afterAll((done) => {
+        service.connectionManager.connection.close();
+        done();
+    });
+
     it("should check the orderIds of the User, AccessToken & RefreshToken entities", () => {
         const userOrder = service.getOrder("User");
         const refreshTokenOrder = service.getOrder("RefreshToken");

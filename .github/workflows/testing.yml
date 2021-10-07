@@ -3,15 +3,15 @@ name: Testing
 on: [push, pull_request]
 
 jobs:
-  test:
-    name: Testing
+  test-local:
+    name: Testing Local
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
 
       - name: Build the docker-compose stack
-        run: docker-compose -f 'docker-compose-test.yml' up -d
+        run: docker-compose -f 'docker-compose.test.yml' up -d
       - name: Check running containers
         run: docker ps -a
       - name: Check logs
@@ -29,3 +29,30 @@ jobs:
         run: yarn db:migrate:test
       - name: Start tests
         run: yarn test
+
+  test-docker:
+    name: Testing Docker Container
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14'
+      
+      - name: Create docker network
+        run: docker network create project-name-network-dev
+      - name: Start Docker Dev Container
+        run: yarn docker:up:hidden
+      - name: Check running containers
+        run: docker ps -a
+      - name: Check logs
+        run: docker logs project-name-postgres-test
+
+      - name: Run database migrations
+        run: yarn docker:db:migrate
+
+      - name: Start tests in docker container
+        run: yarn docker:test
