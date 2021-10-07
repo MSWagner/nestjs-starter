@@ -41,8 +41,13 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '14'
-
+      
+      - name: Create docker network
+        run: docker network create project-name-network-dev
       - name: Start Docker Dev Container
         run: yarn docker:up:hidden
+      - name: Run database migrations
+        run: docker-compose -f 'docker-compose.dev.yml' exec yarn db:migrate:test
+
       - name: Start tests in docker container
         run: yarn docker:test
