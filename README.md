@@ -40,9 +40,11 @@ Replace the string <b><i>'project-name'</i></b> in all files of the project with
 -   docker-compose.yml
 -   docker-compose.dev.yml
 -   docker-compose.test.yml
+-   docker-compose.prod.yml
 -   prod.env
 -   dev.env
 -   test.env
+-   test.docker.env
 
 <b>Important to avoid docker container naming conflicts!</b>
 
@@ -74,6 +76,9 @@ $ yarn build
 ## Running the app
 
 ```bash
+# create docker network for database connection
+$ docker network create project-name-network-dev
+
 # start dev database in docker container
 $ docker-compose -f 'docker-compose.dev.yml' up
 
@@ -90,7 +95,7 @@ $ yarn start:dev
 $ yarn start:prod
 ```
 
-## Testing
+## Testing Local
 
 ```bash
 # start test database in docker container
@@ -110,6 +115,19 @@ $ yarn test:e2e
 
 # test coverage
 $ yarn test:cov
+```
+
+## Testing in Docker Container
+
+```bash
+# start docker containers (app, dev + test)
+$ yarn docker:up:hidden
+
+# start first migration to create the db tables
+$ yarn docker:db:migrate
+
+# execute tests in the docker container
+$ yarn docker:test
 ```
 
 # Deployment
