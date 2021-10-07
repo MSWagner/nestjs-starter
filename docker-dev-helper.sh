@@ -26,7 +26,7 @@ fi
 if [ "$1" = "--test" ]; then
     declare -fx _Test_Method
     _Test_Method() {
-        docker-compose -f 'docker-compose.dev.yml' exec app yarn env-cmd -f ./env/test.docker.env jest --runInBand --ci
+        docker-compose -f 'docker-compose.dev.yml' exec -T app yarn env-cmd -f ./env/test.docker.env jest --runInBand --ci
     }
     
     ( _Test_Method; )
