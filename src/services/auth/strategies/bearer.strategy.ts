@@ -12,6 +12,6 @@ export class BearerStrategy extends PassportStrategy(Strategy) {
     }
 
     async validate(token: string) {
-        return this.authService.validateToken(token, [PermissionScope.User]);
+        return this.authService.validateToken(token);
     }
 }

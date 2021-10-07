@@ -7,13 +7,19 @@ import { LoginDto, LoginResponse } from "./_types";
 
 import { CONFIG } from "../../../config";
 
+import { Permissions } from "../../../services/auth/permissions/permission.decorator";
+import { PermissionsGuard } from "../../../services/auth/permissions/permission.guard";
+import { PermissionScope } from "../../../entities/Permission.entity";
+
 @ApiTags("auth")
+@UseGuards(AuthGuard("local"))
 @Controller({ path: "auth/login", version: "1" })
 export class LoginController {
     constructor(private readonly authService: AuthService) {}
 
-    @UseGuards(AuthGuard("local"))
     @Post()
+    @UseGuards(PermissionsGuard)
+    @Permissions(PermissionScope.User)
     @ApiBody({ type: LoginDto })
     @ApiCreatedResponse({ description: "The credentials has been successfully created.", type: LoginResponse })
     async handler(@Request() req) {

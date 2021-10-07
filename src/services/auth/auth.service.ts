@@ -53,7 +53,7 @@ export class AuthService {
         return accessToken;
     }
 
-    async validateUser(username: string, password: string, scopes: PermissionScope[]): Promise<User> {
+    async validateUser(username: string, password: string): Promise<User> {
         const user = await this.userService.findOne(username);
 
         if (_.isNil(user)) {
@@ -64,27 +64,12 @@ export class AuthService {
             return null;
         }
 
-        // Check if the user has one of the necessary permission scopes
-        if (!_.isEmpty(scopes)) {
-            if (_.isNil(user.userPermissions)) {
-                return null;
-            }
-
-            const userPermissionScopes = user.userPermissions.map((userPermission) => {
-                return _.isNil(userPermission.permission) ? null : userPermission.permission.scope;
-            });
-
-            if (_.intersection(scopes, userPermissionScopes).length === 0) {
-                return null;
-            }
-        }
-
         const isValid = await bcrypt.compare(password, user.passwordHash);
 
         return isValid ? user : null;
     }
 
-    async validateToken(token: string, scopes: PermissionScope[]): Promise<User> {
+    async validateToken(token: string): Promise<User> {
         const accessToken = await this.accessTokenRepository.findOne(token, { relations: ["user"] });
 
         if (_.isNil(accessToken)) {
@@ -99,21 +84,6 @@ export class AuthService {
 
         if (!accessToken.user.isActive) {
             return null;
-        }
-
-        // Check if the user has one of the necessary permission scopes
-        if (!_.isEmpty(scopes)) {
-            if (_.isNil(accessToken.user.userPermissions)) {
-                return null;
-            }
-
-            const userPermissionScopes = accessToken.user.userPermissions.map((userPermission) => {
-                return _.isNil(userPermission.permission) ? null : userPermission.permission.scope;
-            });
-
-            if (_.intersection(scopes, userPermissionScopes).length === 0) {
-                return null;
-            }
         }
 
         return isValid ? accessToken.user : null;

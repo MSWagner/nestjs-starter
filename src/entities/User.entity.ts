@@ -1,31 +1,39 @@
-import { BaseEntity, Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import {
+    BaseEntity,
+    Entity,
+    Column,
+    PrimaryGeneratedColumn,
+    CreateDateColumn,
+    UpdateDateColumn,
+    OneToMany
+} from "typeorm";
 
-import { RefreshToken } from './RefreshToken.entity';
-import { AccessToken } from './AccessToken.entity';
-import { UserPermission } from './UserPermission.entity';
+import { RefreshToken } from "./RefreshToken.entity";
+import { AccessToken } from "./AccessToken.entity";
+import { UserPermission } from "./UserPermission.entity";
+import { PermissionScope } from "./Permission.entity";
 
 @Entity()
 export class User extends BaseEntity {
-
-    @PrimaryGeneratedColumn('uuid')
+    @PrimaryGeneratedColumn("uuid")
     uid: string;
 
-    @Column({ type: 'text', unique: true, nullable: false })
+    @Column({ type: "text", unique: true, nullable: false })
     username: string;
 
-    @Column({ type: 'text', nullable: true, default: null })
+    @Column({ type: "text", nullable: true, default: null })
     passwordHash: string;
 
-    @Column({ type: 'boolean', default: false })
+    @Column({ type: "boolean", default: false })
     isActive: boolean;
 
-    @OneToMany(_type => RefreshToken, refreshToken => refreshToken.user)
+    @OneToMany((_type) => RefreshToken, (refreshToken) => refreshToken.user)
     refreshTokens: RefreshToken[];
 
-    @OneToMany(_type => AccessToken, accessToken => accessToken.user)
+    @OneToMany((_type) => AccessToken, (accessToken) => accessToken.user)
     accessToken: AccessToken[];
 
-    @OneToMany(_type => UserPermission, userPermissions => userPermissions.user, { eager: true })
+    @OneToMany((_type) => UserPermission, (userPermissions) => userPermissions.user, { eager: true })
     userPermissions: UserPermission[];
 
     @CreateDateColumn()
@@ -33,4 +41,8 @@ export class User extends BaseEntity {
 
     @UpdateDateColumn()
     updatedAt: Date;
+
+    get permissions(): PermissionScope[] {
+        return this.userPermissions.map((userPermission) => userPermission.permission.scope);
+    }
 }

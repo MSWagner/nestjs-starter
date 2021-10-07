@@ -170,7 +170,7 @@ describe("Login Controller", () => {
         const accessTokenCountBefore = await AccessToken.count({ user: fixtures.user1 });
         expect(accessTokenCountBefore).toEqual(1);
 
-        const response = await request(app.getHttpServer()).post("/api/v1/auth/login").send(body).expect(401);
+        const response = await request(app.getHttpServer()).post("/api/v1/auth/login").send(body).expect(403);
 
         const refreshTokenCountAfter = await RefreshToken.count({ user: fixtures.user1 });
         expect(refreshTokenCountAfter).toEqual(refreshTokenCountBefore);

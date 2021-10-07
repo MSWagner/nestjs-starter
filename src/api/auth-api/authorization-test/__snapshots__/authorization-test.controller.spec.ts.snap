@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AuthorizationTestController ### PermissionGuard - should return 403 for not user access: NoUserIncluded 1`] = `
+Object {
+  "message": "Unauthorized",
+  "statusCode": 401,
+}
+`;
+
+exports[`AuthorizationTestController ### PermissionGuard - should return 403 with user without admin permission: NoAdminPermission 1`] = `
+Object {
+  "error": "Forbidden",
+  "message": "Forbidden resource",
+  "statusCode": 403,
+}
+`;
