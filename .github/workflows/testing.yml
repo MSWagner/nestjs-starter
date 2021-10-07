@@ -3,8 +3,8 @@ name: Testing
 on: [push, pull_request]
 
 jobs:
-  test:
-    name: Testing
+  test-local:
+    name: Testing Local
     runs-on: ubuntu-latest
 
     steps:
@@ -29,3 +29,20 @@ jobs:
         run: yarn db:migrate:test
       - name: Start tests
         run: yarn test
+
+  test-docker:
+    name: Testing Docker Container
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14'
+
+      - name: Start Docker Dev Container
+        run: yarn docker:up:hidden
+      - name: Start tests in docker container
+        run: yarn docker:test
