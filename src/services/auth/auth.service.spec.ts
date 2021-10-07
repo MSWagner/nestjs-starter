@@ -15,6 +15,7 @@ import { AccessToken } from "../../entities/AccessToken.entity";
 import { RefreshToken } from "../../entities/RefreshToken.entity";
 
 import * as fixtures from "../../services/test/fixtures";
+import { PermissionScope } from "../../entities/Permission.entity";
 
 describe("AuthService", () => {
     let service: AuthService;
@@ -58,7 +59,7 @@ describe("AuthService", () => {
     });
 
     it("should return validated user1 with user", async () => {
-        const user = await service.validateUser(fixtures.user1.username, "testPassword", ["user"]);
+        const user = await service.validateUser(fixtures.user1.username, "testPassword", [PermissionScope.User]);
 
         expect(user).not.toBe(null);
 
@@ -67,7 +68,7 @@ describe("AuthService", () => {
     });
 
     it("should return null for wrong user permission scope (user1)", async () => {
-        const user = await service.validateUser(fixtures.user1.username, "testPassword", ["admin"]);
+        const user = await service.validateUser(fixtures.user1.username, "testPassword", [PermissionScope.Admin]);
 
         expect(user).toBe(null);
 
@@ -76,19 +77,19 @@ describe("AuthService", () => {
     });
 
     it("should return null for wrong user1 password", async () => {
-        const user = await service.validateUser(fixtures.user1.username, "wrongPassword", ["user"]);
+        const user = await service.validateUser(fixtures.user1.username, "wrongPassword", [PermissionScope.User]);
 
         expect(user).toBe(null);
     });
 
     it("should return null for wrong username", async () => {
-        const user = await service.validateUser("wrongUsername", "testPassword", ["user"]);
+        const user = await service.validateUser("wrongUsername", "testPassword", [PermissionScope.User]);
 
         expect(user).toBe(null);
     });
 
     it("should return validated user1 with token", async () => {
-        const user = await service.validateToken(fixtures.accessToken1.token, ["user"]);
+        const user = await service.validateToken(fixtures.accessToken1.token, [PermissionScope.User]);
 
         expect(user).not.toBe(null);
 
@@ -97,7 +98,7 @@ describe("AuthService", () => {
     });
 
     it("should return validated user3 as admin with token", async () => {
-        const user = await service.validateToken(fixtures.accessTokenUser3Admin.token, ["admin"]);
+        const user = await service.validateToken(fixtures.accessTokenUser3Admin.token, [PermissionScope.Admin]);
 
         expect(user).not.toBe(null);
 
@@ -109,7 +110,7 @@ describe("AuthService", () => {
         const accessTokenCountBefore = await AccessToken.count({ token: fixtures.accessToken1.token });
         expect(accessTokenCountBefore).toEqual(1);
 
-        const user = await service.validateToken(fixtures.accessToken1.token, ["admin"]);
+        const user = await service.validateToken(fixtures.accessToken1.token, [PermissionScope.Admin]);
 
         expect(user).toBe(null);
 
@@ -124,7 +125,7 @@ describe("AuthService", () => {
         const accessTokenCountBefore = await AccessToken.count({ token: fixtures.accessTokenUser2.token });
         expect(accessTokenCountBefore).toEqual(1);
 
-        const user = await service.validateToken(fixtures.accessTokenUser2.token, ["user"]);
+        const user = await service.validateToken(fixtures.accessTokenUser2.token, [PermissionScope.User]);
 
         expect(user).toBe(null);
 
@@ -136,7 +137,7 @@ describe("AuthService", () => {
         const accessTokenCountBefore = await AccessToken.count({ token: fixtures.invalidAccessToken.token });
         expect(accessTokenCountBefore).toEqual(1);
 
-        const user = await service.validateToken(fixtures.invalidAccessToken.token, ["user"]);
+        const user = await service.validateToken(fixtures.invalidAccessToken.token, [PermissionScope.User]);
 
         expect(user).toBe(null);
 

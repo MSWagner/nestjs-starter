@@ -1,6 +1,8 @@
 import { Strategy } from "passport-http-bearer";
 import { PassportStrategy } from "@nestjs/passport";
 import { Injectable } from "@nestjs/common";
+
+import { PermissionScope } from "../../../entities/Permission.entity";
 import { AuthService } from "../auth.service";
 
 @Injectable()
@@ -10,6 +12,6 @@ export class BearerStrategy extends PassportStrategy(Strategy) {
     }
 
     async validate(token: string) {
-        return this.authService.validateToken(token, ["user"]);
+        return this.authService.validateToken(token, [PermissionScope.User]);
     }
 }
