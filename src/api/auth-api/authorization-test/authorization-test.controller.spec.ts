@@ -37,26 +37,75 @@ describe("AuthorizationTestController", () => {
         done();
     });
 
-    it("### PermissionGuard - should return 403 for not user access", async () => {
+    it("### PermissionGuard - should return 401 for no access", async () => {
         const response = await request(app.getHttpServer())
             .get("/api/authorization-test/hello/user")
             .send()
             .expect(401);
-        expect(response.body).toMatchSnapshot("NoUserIncluded");
+        expect(response.body).toMatchSnapshot("NoPermissionsUser");
+    });
+
+    it("### PermissionGuard - should return 401 for no access", async () => {
+        const response = await request(app.getHttpServer())
+            .get("/api/authorization-test/hello/admin")
+            .send()
+            .expect(401);
+        expect(response.body).toMatchSnapshot("NoPermissionsAdmin");
+    });
+
+    it("### PermissionGuard - should return 401 for no access", async () => {
+        const response = await request(app.getHttpServer()).get("/api/authorization-test/hello/all").send().expect(401);
+        expect(response.body).toMatchSnapshot("NoPermissionsAll");
     });
 
     it("### PermissionGuard - should return 403 with user without admin permission", async () => {
         const response = await request(app.getHttpServer())
-            .get("/api/authorization-test/hello/user")
+            .get("/api/authorization-test/hello/admin")
             .auth(fixtures.accessToken1.token, { type: "bearer" })
             .send()
             .expect(403);
         expect(response.body).toMatchSnapshot("NoAdminPermission");
     });
 
-    it('### PermissionGuard - should return "Hello World!" with admin permission', async () => {
+    it("### PermissionGuard - should return 403 with user without user permission", async () => {
         const response = await request(app.getHttpServer())
             .get("/api/authorization-test/hello/user")
+            .auth(fixtures.accessTokenUser3Admin.token, { type: "bearer" })
+            .send()
+            .expect(403);
+        expect(response.body).toMatchSnapshot("NoUserPermission");
+    });
+
+    it('### PermissionGuard - should return "Hello World!" with admin permission', async () => {
+        const response = await request(app.getHttpServer())
+            .get("/api/authorization-test/hello/admin")
+            .auth(fixtures.accessTokenUser3Admin.token, { type: "bearer" })
+            .send()
+            .expect(200);
+        expect(response.text).toBe("Hello World!");
+    });
+
+    it('### PermissionGuard - should return "Hello World!" with user permission', async () => {
+        const response = await request(app.getHttpServer())
+            .get("/api/authorization-test/hello/user")
+            .auth(fixtures.accessToken1.token, { type: "bearer" })
+            .send()
+            .expect(200);
+        expect(response.text).toBe("Hello World!");
+    });
+
+    it('### PermissionGuard - should return "Hello World!" with user permission', async () => {
+        const response = await request(app.getHttpServer())
+            .get("/api/authorization-test/hello/all")
+            .auth(fixtures.accessToken1.token, { type: "bearer" })
+            .send()
+            .expect(200);
+        expect(response.text).toBe("Hello World!");
+    });
+
+    it('### PermissionGuard - should return "Hello World!" with admin permission', async () => {
+        const response = await request(app.getHttpServer())
+            .get("/api/authorization-test/hello/all")
             .auth(fixtures.accessTokenUser3Admin.token, { type: "bearer" })
             .send()
             .expect(200);
