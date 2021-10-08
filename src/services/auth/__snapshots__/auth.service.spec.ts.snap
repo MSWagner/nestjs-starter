@@ -1,9 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AuthService should return null for user1 without admin scrope: User1NoAdminScope 1`] = `null`;
-
-exports[`AuthService should return null for wrong user permission scope (user1): UserPermissionScopeError 1`] = `null`;
-
 exports[`AuthService should return validated user1 with token: ValidatedUser1WithToken 1`] = `
 User {
   "createdAt": "createdAt",

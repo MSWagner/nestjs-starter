@@ -15,6 +15,7 @@ import { AccessToken } from "../../entities/AccessToken.entity";
 import { RefreshToken } from "../../entities/RefreshToken.entity";
 
 import * as fixtures from "../../services/test/fixtures";
+import { PermissionScope } from "../../entities/Permission.entity";
 
 describe("AuthService", () => {
     let service: AuthService;
@@ -58,7 +59,7 @@ describe("AuthService", () => {
     });
 
     it("should return validated user1 with user", async () => {
-        const user = await service.validateUser(fixtures.user1.username, "testPassword", ["user"]);
+        const user = await service.validateUser(fixtures.user1.username, "testPassword");
 
         expect(user).not.toBe(null);
 
@@ -66,29 +67,20 @@ describe("AuthService", () => {
         expect(userWithoutDates).toMatchSnapshot("ValidatedUser1WithUser");
     });
 
-    it("should return null for wrong user permission scope (user1)", async () => {
-        const user = await service.validateUser(fixtures.user1.username, "testPassword", ["admin"]);
-
-        expect(user).toBe(null);
-
-        const userWithoutDates = testService.replaceDates(user);
-        expect(userWithoutDates).toMatchSnapshot("UserPermissionScopeError");
-    });
-
     it("should return null for wrong user1 password", async () => {
-        const user = await service.validateUser(fixtures.user1.username, "wrongPassword", ["user"]);
+        const user = await service.validateUser(fixtures.user1.username, "wrongPassword");
 
         expect(user).toBe(null);
     });
 
     it("should return null for wrong username", async () => {
-        const user = await service.validateUser("wrongUsername", "testPassword", ["user"]);
+        const user = await service.validateUser("wrongUsername", "testPassword");
 
         expect(user).toBe(null);
     });
 
     it("should return validated user1 with token", async () => {
-        const user = await service.validateToken(fixtures.accessToken1.token, ["user"]);
+        const user = await service.validateToken(fixtures.accessToken1.token);
 
         expect(user).not.toBe(null);
 
@@ -97,7 +89,7 @@ describe("AuthService", () => {
     });
 
     it("should return validated user3 as admin with token", async () => {
-        const user = await service.validateToken(fixtures.accessTokenUser3Admin.token, ["admin"]);
+        const user = await service.validateToken(fixtures.accessTokenUser3Admin.token);
 
         expect(user).not.toBe(null);
 
@@ -105,38 +97,11 @@ describe("AuthService", () => {
         expect(userWithoutDates).toMatchSnapshot("ValidatedUser3AdminWithToken");
     });
 
-    it("should return null for user1 without admin scrope", async () => {
-        const accessTokenCountBefore = await AccessToken.count({ token: fixtures.accessToken1.token });
-        expect(accessTokenCountBefore).toEqual(1);
-
-        const user = await service.validateToken(fixtures.accessToken1.token, ["admin"]);
-
-        expect(user).toBe(null);
-
-        const userWithoutDates = testService.replaceDates(user);
-        expect(userWithoutDates).toMatchSnapshot("User1NoAdminScope");
-
-        const accessTokenCountAfter = await AccessToken.count({ token: fixtures.accessToken1.token });
-        expect(accessTokenCountAfter).toEqual(1);
-    });
-
-    it("should return null for no permission token and not delete it", async () => {
-        const accessTokenCountBefore = await AccessToken.count({ token: fixtures.accessTokenUser2.token });
-        expect(accessTokenCountBefore).toEqual(1);
-
-        const user = await service.validateToken(fixtures.accessTokenUser2.token, ["user"]);
-
-        expect(user).toBe(null);
-
-        const accessTokenCountAfter = await AccessToken.count({ token: fixtures.accessTokenUser2.token });
-        expect(accessTokenCountAfter).toEqual(1);
-    });
-
     it("should return null for invalid token and delete it", async () => {
         const accessTokenCountBefore = await AccessToken.count({ token: fixtures.invalidAccessToken.token });
         expect(accessTokenCountBefore).toEqual(1);
 
-        const user = await service.validateToken(fixtures.invalidAccessToken.token, ["user"]);
+        const user = await service.validateToken(fixtures.invalidAccessToken.token);
 
         expect(user).toBe(null);
 
@@ -238,7 +203,7 @@ describe("AuthService", () => {
     });
 
     it("should return null for inactive user validation", async () => {
-        const user = await service.validateUser(fixtures.userInActive.username, "testPassword", []);
+        const user = await service.validateUser(fixtures.userInActive.username, "testPassword");
 
         expect(user).toBe(null);
     });
