@@ -1,5 +1,5 @@
-import * as compression from "compression";
-import * as helmet from "helmet";
+import compression from "compression";
+import helmet from "helmet";
 import rateLimit from 'express-rate-limit';
 
 import { INestApplication, ValidationPipe, VersioningType } from "@nestjs/common";
