@@ -1,6 +1,6 @@
 import * as compression from "compression";
 import * as helmet from "helmet";
-import * as rateLimit from "express-rate-limit";
+import rateLimit from 'express-rate-limit';
 
 import { INestApplication, ValidationPipe, VersioningType } from "@nestjs/common";
 import { PermissionsGuard } from "./services/auth/permissions/permission.guard";
