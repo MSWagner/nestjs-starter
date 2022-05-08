@@ -73,7 +73,7 @@ $ yarn build
 
 # Development
 
-## Running the app
+## Running the dev env app (Docker Container)
 
 ```bash
 # create docker network for database connection
@@ -84,6 +84,10 @@ $ docker-compose -f 'docker-compose.dev.yml' up
 
 # start first migration to create the db tables
 $ yarn db:migrate:dev
+```
+
+## Running the app (Local)
+```bash
 
 # development
 $ yarn start
@@ -93,9 +97,12 @@ $ yarn start:dev
 
 # production mode
 $ yarn start:prod
+
+# start first migration to create the db tables
+$ yarn db:migrate:dev
 ```
 
-## Testing Local
+## Testing Local (without dev/prod app container)
 
 ```bash
 # start test database in docker container
