@@ -15,7 +15,7 @@ jobs:
       - name: Check running containers
         run: docker ps -a
       - name: Check logs
-        run: docker logs project-name-postgres-test
+        run: docker logs project-name-postgres-test-standalone
 
       - name: Use Node.js
         uses: actions/setup-node@v1
