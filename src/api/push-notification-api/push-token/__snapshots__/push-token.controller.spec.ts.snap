@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PushTokenController ### PermissionGuard - should return 401 for no access: NoPermissionsUserOrAdmin 1`] = `
+Object {
+  "message": "Unauthorized",
+  "statusCode": 401,
+}
+`;
+
+exports[`PushTokenController ### PermissionGuard - should return success with admin permission: Success 1`] = `"{\\"success\\":true}"`;
+
+exports[`PushTokenController ### PermissionGuard - should return success with user permission: Success 1`] = `"{\\"success\\":true}"`;
+
+exports[`PushTokenController ### should return 400er for missing token: BadRequestMissingToken 1`] = `"{\\"statusCode\\":400,\\"message\\":[\\"token must be longer than or equal to 3 characters\\",\\"token must be a string\\"],\\"error\\":\\"Bad Request\\"}"`;
+
+exports[`PushTokenController ### should return 400er for push token conflict: BadRequestTokenConflict 1`] = `"{\\"statusCode\\":400,\\"message\\":[\\"token must be longer than or equal to 3 characters\\",\\"token must be a string\\"],\\"error\\":\\"Bad Request\\"}"`;
+
+exports[`PushTokenController ### should return 400er for to short push token: BadRequestShortToken 1`] = `"{\\"statusCode\\":400,\\"message\\":[\\"token must be longer than or equal to 3 characters\\"],\\"error\\":\\"Bad Request\\"}"`;

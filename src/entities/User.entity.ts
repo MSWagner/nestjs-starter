@@ -12,6 +12,7 @@ import { RefreshToken } from "./RefreshToken.entity";
 import { AccessToken } from "./AccessToken.entity";
 import { UserPermission } from "./UserPermission.entity";
 import { PermissionScope } from "./Permission.entity";
+import { PushToken } from "./PushToken.entity";
 
 @Entity()
 export class User extends BaseEntity {
@@ -35,6 +36,9 @@ export class User extends BaseEntity {
 
     @OneToMany((_type) => UserPermission, (userPermissions) => userPermissions.user, { eager: true })
     userPermissions: UserPermission[];
+
+    @OneToMany((_type) => PushToken, (pushToken) => pushToken.user, { eager: true })
+    pushTokens: UserPermission[];
 
     @CreateDateColumn()
     createdAt: Date;

@@ -1,7 +1,7 @@
 version: "3"
 services:
     TestDB:
-        container_name: project-name-postgres-test
+        container_name: project-name-postgres-test-standalone
         image: postgres:10-alpine
         ports:
             - "5431:5432"

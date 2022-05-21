@@ -122,6 +122,11 @@ Array [
     "tableName": "user_permission",
   },
   Object {
+    "name": "PushToken",
+    "order": 5,
+    "tableName": "push_token",
+  },
+  Object {
     "name": "User",
     "order": 1,
     "tableName": "user",
