@@ -5,6 +5,14 @@ User {
   "createdAt": "createdAt",
   "isActive": true,
   "passwordHash": "$2b$10$n8McQmLm6U/RXlRb9HxNEOgurQecAokxI2oCoumlSOlOj4M.aU59K",
+  "pushTokens": Array [
+    PushToken {
+      "createdAt": "createdAt",
+      "token": "user1PushTokenFixtures",
+      "uid": "733d80fd-d861-4638-99c8-fcc5c5e93963",
+      "updatedAt": "updatedAt",
+    },
+  ],
   "uid": "0961866f-ff60-4219-973c-109eecfa52bd",
   "updatedAt": "updatedAt",
   "userPermissions": Array [
@@ -28,6 +36,14 @@ User {
   "createdAt": "createdAt",
   "isActive": true,
   "passwordHash": "$2b$10$n8McQmLm6U/RXlRb9HxNEOgurQecAokxI2oCoumlSOlOj4M.aU59K",
+  "pushTokens": Array [
+    PushToken {
+      "createdAt": "createdAt",
+      "token": "user1PushTokenFixtures",
+      "uid": "733d80fd-d861-4638-99c8-fcc5c5e93963",
+      "updatedAt": "updatedAt",
+    },
+  ],
   "uid": "0961866f-ff60-4219-973c-109eecfa52bd",
   "updatedAt": "updatedAt",
   "userPermissions": Array [
@@ -51,6 +67,14 @@ User {
   "createdAt": "createdAt",
   "isActive": true,
   "passwordHash": null,
+  "pushTokens": Array [
+    PushToken {
+      "createdAt": "createdAt",
+      "token": "user3PushTokenFixtures",
+      "uid": "ff5fce38-ca56-4e08-be2c-7af095266bf6",
+      "updatedAt": "updatedAt",
+    },
+  ],
   "uid": "435c0a53-9e6b-488a-9d1c-582b108ed3e7",
   "updatedAt": "updatedAt",
   "userPermissions": Array [

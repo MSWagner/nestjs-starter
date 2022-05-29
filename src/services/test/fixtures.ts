@@ -79,10 +79,23 @@ export const invalidRefreshToken = {
     user: user2.uid
 };
 
+export const user1PushToken = {
+   uid: "733d80fd-d861-4638-99c8-fcc5c5e93963",
+   token: "user1PushTokenFixtures",
+   user: user1.uid
+}
+
+export const user3PushToken = {
+    uid: "ff5fce38-ca56-4e08-be2c-7af095266bf6",
+    token: "user3PushTokenFixtures",
+    user: user3.uid
+}
+
 export const fixtureTrees = {
     Permission: [permissionAdmin, permissionUser],
     User: [user1, user2, user3, userInActive],
     UserPermission: [user1Permission, user3Permission],
     RefreshToken: [refreshToken1, invalidRefreshToken],
-    AccessToken: [accessToken1, accessTokenUser2, accessTokenUser3Admin, invalidAccessToken]
+    AccessToken: [accessToken1, accessTokenUser2, accessTokenUser3Admin, invalidAccessToken],
+    PushToken: [user1PushToken, user3PushToken]
 };
