@@ -7,9 +7,9 @@ services:
         ports:
             - "5432:5432"
         environment:
-            - POSTGRES_USER=root
-            - POSTGRES_PASSWORD=toor
-            - POSTGRES_DB=project-name-prod-db
+            - POSTGRES_USER=$PGUSER
+            - POSTGRES_PASSWORD=$PGPASSWORD
+            - POSTGRES_DB=$PGDATABASE
         volumes:
             - project-name-database:/var/lib/postgresql/data
         networks:
@@ -19,12 +19,12 @@ services:
         container_name: project-name-app-prod
         command: yarn start:prod
         environment:
-            - NODE_ENV=production
-            - PGHOST=db
-            - PGPORT=5432
-            - PGUSER=root
-            - PGPASSWORD=toor
-            - PGDATABASE=project-name-prod-db
+            - NODE_ENV=$NODE_ENV
+            - PGHOST=$PGHOST
+            - PGPORT=$PGPORT
+            - PGUSER=$PGUSER
+            - PGPASSWORD=$PGPASSWORD
+            - PGDATABASE=$PGDATABASE
         image: project-name:latest
         restart: always
         ports:
