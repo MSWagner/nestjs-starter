@@ -86,22 +86,6 @@ $ docker-compose -f 'docker-compose.dev.yml' up
 $ yarn db:migrate:dev
 ```
 
-## Running the app (Local)
-```bash
-
-# development
-$ yarn start
-
-# watch mode
-$ yarn start:dev
-
-# production mode
-$ yarn start:prod
-
-# start first migration to create the db tables
-$ yarn db:migrate:dev
-```
-
 ## Testing Local (without dev/prod app container)
 
 ```bash
