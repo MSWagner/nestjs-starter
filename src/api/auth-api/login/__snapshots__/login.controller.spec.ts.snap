@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Login Controller /POST auth/login - should login user1: LoginUser1 1`] = `
-Object {
+{
   "accessToken": "accessToken",
   "expiresIn": 86400000,
   "refreshToken": "refreshToken",
@@ -10,7 +10,7 @@ Object {
 `;
 
 exports[`Login Controller /POST auth/login - should return an error for a missing permission scope (user2): MissingPermissionScopeUser2 1`] = `
-Object {
+{
   "error": "Forbidden",
   "message": "Forbidden resource",
   "statusCode": 403,
@@ -18,28 +18,28 @@ Object {
 `;
 
 exports[`Login Controller /POST auth/login - should return an error for a not existing username: LoginNotExistingUserError 1`] = `
-Object {
+{
   "message": "Unauthorized",
   "statusCode": 401,
 }
 `;
 
 exports[`Login Controller /POST auth/login - should return an error for a wrong password: LoginWrongPasswordError 1`] = `
-Object {
+{
   "message": "Unauthorized",
   "statusCode": 401,
 }
 `;
 
 exports[`Login Controller /POST auth/login - should throw error for missing password: LoginMissingPasswordError 1`] = `
-Object {
+{
   "message": "Unauthorized",
   "statusCode": 401,
 }
 `;
 
 exports[`Login Controller /POST auth/login - should throw error for missing username: LoginMissingUsernameError 1`] = `
-Object {
+{
   "message": "Unauthorized",
   "statusCode": 401,
 }

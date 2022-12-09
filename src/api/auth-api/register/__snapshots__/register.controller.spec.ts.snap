@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Register Controller /POST auth/register - should register an new user: RegisterCredentials 1`] = `
-Object {
+{
   "accessToken": "accessToken",
   "expiresIn": 86400000,
   "refreshToken": "refreshToken",
@@ -10,9 +10,9 @@ Object {
 `;
 
 exports[`Register Controller /POST auth/register - should throw an error for a to short password: RegisterPasswordToShortError 1`] = `
-Object {
+{
   "error": "Bad Request",
-  "message": Array [
+  "message": [
     "password must be longer than or equal to 6 characters",
   ],
   "statusCode": 400,
@@ -20,9 +20,9 @@ Object {
 `;
 
 exports[`Register Controller /POST auth/register - should throw an error for a to short username: RegisterUsernameToShortError 1`] = `
-Object {
+{
   "error": "Bad Request",
-  "message": Array [
+  "message": [
     "username must be longer than or equal to 3 characters",
   ],
   "statusCode": 400,
@@ -30,16 +30,16 @@ Object {
 `;
 
 exports[`Register Controller /POST auth/register - should throw an error for a username conflict: RegisterUsernameConflictError 1`] = `
-Object {
+{
   "message": "User with the given username already exists",
   "statusCode": 409,
 }
 `;
 
 exports[`Register Controller /POST auth/register - should throw an error for missing password: RegisterPasswordMissingError 1`] = `
-Object {
+{
   "error": "Bad Request",
-  "message": Array [
+  "message": [
     "password must be longer than or equal to 6 characters",
     "password must be a string",
   ],
@@ -48,9 +48,9 @@ Object {
 `;
 
 exports[`Register Controller /POST auth/register - should throw an error for missing username: RegisterUsernameMissingError 1`] = `
-Object {
+{
   "error": "Bad Request",
-  "message": Array [
+  "message": [
     "username must be longer than or equal to 3 characters",
     "username must be a string",
   ],

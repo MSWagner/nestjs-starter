@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`RefreshToken Controller /POST auth/refresh - should refresh the accessToken for user1: RefreshTokenCredentials 1`] = `
-Object {
+{
   "accessToken": "accessToken",
   "expiresIn": 86400000,
   "refreshToken": "refreshToken",
@@ -10,9 +10,9 @@ Object {
 `;
 
 exports[`RefreshToken Controller /POST auth/refresh - should throw error for missing token: MissingTokenError 1`] = `
-Object {
+{
   "error": "Bad Request",
-  "message": Array [
+  "message": [
     "refreshToken must be a UUID",
   ],
   "statusCode": 400,
@@ -20,9 +20,9 @@ Object {
 `;
 
 exports[`RefreshToken Controller /POST auth/refresh - should throw error for wrong token format (not a UUID): NoUUIDTokenError 1`] = `
-Object {
+{
   "error": "Bad Request",
-  "message": Array [
+  "message": [
     "refreshToken must be a UUID",
   ],
   "statusCode": 400,
@@ -30,7 +30,7 @@ Object {
 `;
 
 exports[`RefreshToken Controller /POST auth/refresh - should throw error not existing refreshToken: NotFoundRefreshTokenError 1`] = `
-Object {
+{
   "message": "RefreshToken not found.",
   "statusCode": 404,
 }
