@@ -1,4 +1,4 @@
-FROM node:14
+FROM node:18
 EXPOSE 3000
 
 # Setup /app/ with current code

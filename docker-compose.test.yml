@@ -2,7 +2,7 @@ version: "3"
 services:
     TestDB:
         container_name: project-name-postgres-test-standalone
-        image: postgres:10-alpine
+        image: postgres:14-alpine
         ports:
             - "5431:5432"
         environment:
