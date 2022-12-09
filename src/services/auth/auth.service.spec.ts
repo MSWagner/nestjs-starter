@@ -15,7 +15,6 @@ import { AccessToken } from "../../entities/AccessToken.entity";
 import { RefreshToken } from "../../entities/RefreshToken.entity";
 
 import * as fixtures from "../../services/test/fixtures";
-import { PermissionScope } from "../../entities/Permission.entity";
 
 describe("AuthService", () => {
     let service: AuthService;

@@ -1,12 +1,10 @@
 import compression from "compression";
 import helmet from "helmet";
-import rateLimit from 'express-rate-limit';
+import rateLimit from "express-rate-limit";
 
 import { INestApplication, ValidationPipe, VersioningType } from "@nestjs/common";
-import { PermissionsGuard } from "./services/auth/permissions/permission.guard";
-import { Reflector } from "@nestjs/core";
 
-export async function setupApp(app: INestApplication) {
+export async function setupApp(app: INestApplication): Promise<void> {
     app.setGlobalPrefix("api");
     app.enableVersioning({
         type: VersioningType.URI

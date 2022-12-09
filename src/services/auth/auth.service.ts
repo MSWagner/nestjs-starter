@@ -10,9 +10,13 @@ import { UserService } from "../user/user.service";
 import { User } from "../../entities/User.entity";
 import { AccessToken } from "../../entities/AccessToken.entity";
 import { RefreshToken } from "../../entities/RefreshToken.entity";
-import { PermissionScope } from "../../entities/Permission.entity";
 
 import { CONFIG } from "../../config";
+
+export interface IToken {
+    accessToken: AccessToken;
+    refreshToken: RefreshToken;
+}
 
 @Injectable()
 export class AuthService {
@@ -93,11 +97,11 @@ export class AuthService {
         return this.userService.createUser(username, password);
     }
 
-    async login(user: User) {
+    async login(user: User): Promise<IToken> {
         return this.generateToken(user);
     }
 
-    async refreshAuthToken(token: string) {
+    async refreshAuthToken(token: string): Promise<IToken> {
         const refreshToken = await this.refreshTokenRepository.findOne(token, { relations: ["user"] });
 
         const isValid =

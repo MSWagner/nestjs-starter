@@ -1,10 +1,10 @@
-import { createConnection, getConnection, getConnectionManager } from "typeorm";
+import { Connection, createConnection, getConnection, getConnectionManager } from "typeorm";
 
 import CONFIG from "../../config";
 
 export const DatabaseProvider = {
     provide: CONFIG.database.defaultConnectionName,
-    useFactory: async () => {
+    useFactory: async (): Promise<Connection> => {
         try {
             return getConnection();
         } catch (error) {

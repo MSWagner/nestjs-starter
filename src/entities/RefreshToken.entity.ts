@@ -1,16 +1,27 @@
-import { BaseEntity, Entity, ManyToOne, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
-import { User } from './User.entity';
+import {
+    BaseEntity,
+    Entity,
+    ManyToOne,
+    Column,
+    PrimaryGeneratedColumn,
+    CreateDateColumn,
+    UpdateDateColumn
+} from "typeorm";
+import { User } from "./User.entity";
 
 @Entity()
 export class RefreshToken extends BaseEntity {
-
-    @PrimaryGeneratedColumn('uuid')
+    @PrimaryGeneratedColumn("uuid")
     token: string;
 
     @Column({ nullable: true })
     validUntil: Date;
 
-    @ManyToOne(_type => User, user => user.refreshTokens, { onDelete: 'CASCADE', onUpdate: 'CASCADE', nullable: false })
+    @ManyToOne((_type) => User, (user) => user.refreshTokens, {
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+        nullable: false
+    })
     user: User;
 
     @CreateDateColumn()

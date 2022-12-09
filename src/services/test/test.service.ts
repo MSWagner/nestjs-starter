@@ -8,6 +8,11 @@ import { getConnection, EntityManager } from "typeorm";
 import { fixtureTrees } from "./fixtures";
 
 export type REPLACE_TYPE = "DATE" | "UUID";
+export interface IEntity {
+    name: string;
+    tableName: string;
+    order: number;
+}
 
 @Injectable()
 export class TestService {
@@ -25,14 +30,14 @@ export class TestService {
      * Returns the order id
      * @param entityName The entity name of which you want to have the order from
      */
-    getOrder(entityName) {
+    getOrder(entityName): number {
         return Object.keys(fixtureTrees).indexOf(entityName);
     }
 
     /**
      * Returns the entites of the database
      */
-    async getEntities() {
+    async getEntities(): Promise<IEntity[]> {
         const entities = [];
         (await (await this.connectionManager.connection).entityMetadatas).forEach((x) =>
             entities.push({
@@ -48,7 +53,7 @@ export class TestService {
     /**
      * Cleans the database and reloads the entries
      */
-    async reloadFixtures() {
+    async reloadFixtures(): Promise<void> {
         const entities = await this.getEntities();
         const entitiesWithFixtures = entities.filter((entity) => Object.keys(fixtureTrees).indexOf(entity.name) !== -1);
 
@@ -59,7 +64,7 @@ export class TestService {
     /**
      * Cleans all the entities
      */
-    async cleanAll(entities) {
+    async cleanAll(entities: IEntity[]): Promise<void> {
         try {
             for (const entity of entities.sort((a, b) => b.order - a.order)) {
                 const repository = await this.connectionManager.getRepository(entity.name);
@@ -74,7 +79,7 @@ export class TestService {
     /**
      * Insert the data from the src/test/fixtures folder
      */
-    async loadAll(entities: any[]) {
+    async loadAll(entities: IEntity[]): Promise<void> {
         for (const entity of entities.sort((a, b) => a.order - b.order)) {
             try {
                 const repository = await this.connectionManager.getRepository(entity.name);
@@ -89,15 +94,15 @@ export class TestService {
         }
     }
 
-    replaceUUIDs(object) {
+    replaceUUIDs(object): unknown {
         return this.replaceValues(object, ["UUID"]);
     }
 
-    replaceDates(object) {
+    replaceDates(object): unknown {
         return this.replaceValues(object, ["DATE"]);
     }
 
-    replaceValues(object, types: REPLACE_TYPE[]) {
+    replaceValues(object, types: REPLACE_TYPE[]): unknown {
         if (_.isArray(object)) {
             object.forEach((arrayObject, index) => {
                 const result = this.replaceValues(arrayObject, types);
@@ -138,13 +143,13 @@ export class TestService {
         return object;
     }
 
-    isObjectWithKeys(object) {
+    isObjectWithKeys(object): boolean {
         const keysOfKey = _.keys(object);
 
         return !_.isNil(object) && !_.isNil(keysOfKey) && keysOfKey.length > 0;
     }
 
-    isDate(object) {
+    isDate(object): boolean {
         if (_.isInteger(object)) {
             return false;
         }

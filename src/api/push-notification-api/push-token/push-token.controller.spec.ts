@@ -44,14 +44,11 @@ describe("PushTokenController", () => {
             token: "testToken"
         };
 
-        const response = await request(app.getHttpServer())
-            .post("/api/v1/push-token")
-            .send(body)
-            .expect(401);
+        const response = await request(app.getHttpServer()).post("/api/v1/push-token").send(body).expect(401);
         expect(response.body).toMatchSnapshot("NoPermissionsUserOrAdmin");
     });
 
-    it('### PermissionGuard - should return success with admin permission', async () => {
+    it("### PermissionGuard - should return success with admin permission", async () => {
         const body = {
             token: "testToken"
         };
@@ -64,7 +61,7 @@ describe("PushTokenController", () => {
         expect(response.text).toMatchSnapshot("Success");
     });
 
-    it('### PermissionGuard - should return success with user permission', async () => {
+    it("### PermissionGuard - should return success with user permission", async () => {
         const body = {
             token: "testToken"
         };
@@ -74,10 +71,10 @@ describe("PushTokenController", () => {
             .auth(fixtures.accessToken1.token, { type: "bearer" })
             .send(body)
             .expect(201);
-            expect(response.text).toMatchSnapshot("Success");
+        expect(response.text).toMatchSnapshot("Success");
     });
 
-    it('### should return 400er for push token conflict', async () => {
+    it("### should return 400er for push token conflict", async () => {
         const body = {
             token: fixtures.user3PushToken
         };
@@ -87,10 +84,10 @@ describe("PushTokenController", () => {
             .auth(fixtures.accessToken1.token, { type: "bearer" })
             .send(body)
             .expect(400);
-            expect(response.text).toMatchSnapshot("BadRequestTokenConflict");
+        expect(response.text).toMatchSnapshot("BadRequestTokenConflict");
     });
 
-    it('### should return 400er for to short push token', async () => {
+    it("### should return 400er for to short push token", async () => {
         const body = {
             token: "12"
         };
@@ -100,18 +97,17 @@ describe("PushTokenController", () => {
             .auth(fixtures.accessToken1.token, { type: "bearer" })
             .send(body)
             .expect(400);
-            expect(response.text).toMatchSnapshot("BadRequestShortToken");
+        expect(response.text).toMatchSnapshot("BadRequestShortToken");
     });
 
-    it('### should return 400er for missing token', async () => {
-        const body = {
-        };
+    it("### should return 400er for missing token", async () => {
+        const body = {};
 
         const response = await request(app.getHttpServer())
             .post("/api/v1/push-token")
             .auth(fixtures.accessToken1.token, { type: "bearer" })
             .send(body)
             .expect(400);
-            expect(response.text).toMatchSnapshot("BadRequestMissingToken");
+        expect(response.text).toMatchSnapshot("BadRequestMissingToken");
     });
 });

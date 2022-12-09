@@ -13,7 +13,7 @@ export class RegisterController {
 
     @Post()
     @ApiCreatedResponse({ description: "The user has been successfully created.", type: RegisterResponse })
-    async handler(@Body() requestDto: RegisterDto) {
+    async handler(@Body() requestDto: RegisterDto): Promise<RegisterResponse> {
         try {
             const newUser = await this.authService.register(requestDto.username, requestDto.password);
             const tokens = await this.authService.generateToken(newUser);

@@ -21,9 +21,9 @@ export class PushTokenController {
     @Permissions(PermissionScope.User, PermissionScope.Admin)
     @ApiBody({ type: PushTokenDto })
     @ApiCreatedResponse({ description: "The push was successful created or updated.", type: SuccessResponse })
-    async handler(@Request() req, @Body() requestDto: PushTokenDto) {
+    async handler(@Request() req, @Body() requestDto: PushTokenDto): Promise<SuccessResponse> {
         try {
-            const pushToken = await this.pushNotificationService.upsertPushToken(requestDto.token, req.user);            
+            const pushToken = await this.pushNotificationService.upsertPushToken(requestDto.token, req.user);
             if (!pushToken) {
                 throw new BadRequestException();
             }

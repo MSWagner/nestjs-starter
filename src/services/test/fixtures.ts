@@ -80,16 +80,16 @@ export const invalidRefreshToken = {
 };
 
 export const user1PushToken = {
-   uid: "733d80fd-d861-4638-99c8-fcc5c5e93963",
-   token: "user1PushTokenFixtures",
-   user: user1.uid
-}
+    uid: "733d80fd-d861-4638-99c8-fcc5c5e93963",
+    token: "user1PushTokenFixtures",
+    user: user1.uid
+};
 
 export const user3PushToken = {
     uid: "ff5fce38-ca56-4e08-be2c-7af095266bf6",
     token: "user3PushTokenFixtures",
     user: user3.uid
-}
+};
 
 export const fixtureTrees = {
     Permission: [permissionAdmin, permissionUser],

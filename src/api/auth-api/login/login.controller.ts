@@ -22,7 +22,7 @@ export class LoginController {
     @Permissions(PermissionScope.User)
     @ApiBody({ type: LoginDto })
     @ApiCreatedResponse({ description: "The credentials has been successfully created.", type: LoginResponse })
-    async handler(@Request() req) {
+    async handler(@Request() req): Promise<LoginResponse> {
         const tokens = await this.authService.login(req.user);
 
         return {

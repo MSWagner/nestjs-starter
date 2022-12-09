@@ -8,10 +8,9 @@ import CONFIG from "../../config";
 
 @Injectable()
 export class PushNotificationService {
-
     constructor(
         @Inject(CONFIG.database.defaultPushTokenRepoName)
-        private readonly pushTokenRepository: Repository<PushToken>,
+        private readonly pushTokenRepository: Repository<PushToken>
     ) {}
 
     async upsertPushToken(token: string, user: User): Promise<PushToken | null> {

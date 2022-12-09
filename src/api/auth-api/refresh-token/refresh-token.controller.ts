@@ -15,7 +15,7 @@ export class RefreshTokenController {
 
     @Post()
     @ApiCreatedResponse({ description: "The credentials has been successfully created.", type: RefreshTokenResponse })
-    async handler(@Body() requestDto: RefreshTokenDto) {
+    async handler(@Body() requestDto: RefreshTokenDto): Promise<RefreshTokenResponse> {
         const tokens = await this.authService.refreshAuthToken(requestDto.refreshToken);
 
         if (_.isNil(tokens)) {

@@ -7,8 +7,6 @@ import { PermissionsGuard } from "../../../services/auth/permissions/permission.
 
 @Controller("/authorization-test")
 export class AuthorizationTestController {
-    constructor() {}
-
     @Get("hello/user")
     @UseGuards(AuthGuard("bearer"), PermissionsGuard)
     @Permissions(PermissionScope.User)
