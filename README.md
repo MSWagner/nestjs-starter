@@ -73,20 +73,20 @@ $ yarn build
 
 # Development
 
-## Running the dev env app (Docker Container)
+## Starting the dev enviornment (Docker Container)
 
 ```bash
 # create docker network for database connection
 $ docker network create project-name-network-dev
 
-# start dev database in docker container
+# start the app and database in docker containers
 $ docker-compose -f 'docker-compose.dev.yml' up
 
 # start first migration to create the db tables
 $ yarn db:migrate:dev
 ```
 
-## Testing Local (without dev/prod app container)
+## Testing Local (without app docker container)
 
 ```bash
 # start test database in docker container
@@ -131,7 +131,8 @@ $ yarn docker:test
 # create network to connect the app with the db
 $ docker network create project-name-network
 
-# build the docker image, create & run the app/db container in detached mode (background)
+# set the env variables for the docker compose file (I used github secrets in the github actions pipeline)
+# build the docker image, create & run the app/db container in detached mode (background) 
 $ docker-compose -f 'docker-compose.prod.yml' up -d
 
 # init tables with migration

@@ -17,7 +17,7 @@
         "test:watch": "env-cmd -f ./env/test.env jest --watch --runInBand",
         "test:cov": "env-cmd -f ./env/test.env jest --coverage --detectOpenHandles --runInBand",
         "test:debug": "env-cmd -f ./env/test.env node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-        "test:e2e": "env-cmd -f ./env/test.env jest --config ./test/jest-e2e.json --runInBand",
+        "test:e2e": "env-cmd -f ./env/test.env jest --config ./test/jest-e2e.json --detectOpenHandles --runInBand",
         "typeorm": "env-cmd --no-override -f ./env/dev.env ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
         "db:create:dev": "./node_modules/.bin/env-cmd --no-override -f ./env/dev.env ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:create",
         "db:migrate:dev": "./node_modules/.bin/env-cmd --no-override -f ./env/dev.env ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run",
