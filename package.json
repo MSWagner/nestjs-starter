@@ -69,7 +69,7 @@
         "express-rate-limit": "^6.4.0",
         "helmet": "^5.0.2",
         "lodash": "^4.17.21",
-        "moment": "^2.29.3",
+        "moment": "^2.29.4",
         "passport": "^0.5.2",
         "passport-http-bearer": "^1.0.1",
         "passport-local": "^1.0.0",
