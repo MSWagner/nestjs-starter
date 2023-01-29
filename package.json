@@ -45,13 +45,12 @@
     },
     "lint-staged": {
         "*.{ts,tsx}": [
-            "./node_modules/.bin/prettier --write",
-            "yarn test"
+            "./node_modules/.bin/prettier --write"
         ]
     },
     "husky": {
         "hooks": {
-            "pre-commit": "yarn test && yarn lint && yarn build"
+            "pre-commit": "lint-staged && yarn test && yarn lint && yarn build"
         }
     },
     "dependencies": {
