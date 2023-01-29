@@ -51,7 +51,7 @@
     },
     "husky": {
         "hooks": {
-            "pre-commit": "lint-staged && yarn lint && yarn build"
+            "pre-commit": "yarn test && yarn lint && yarn build"
         }
     },
     "dependencies": {
@@ -100,7 +100,7 @@
         "jest": "^29.3.1",
         "jest-extended": "^3.2.0",
         "lint-staged": "^13.1.0",
-        "prettier": "^2.8.1",
+        "prettier": "^2.8.3",
         "supertest": "^6.3.3",
         "ts-jest": "^29.0.3",
         "ts-loader": "^9.4.2",
