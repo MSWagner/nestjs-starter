@@ -36,10 +36,22 @@ describe("PushNotificationService", () => {
     });
 
     it("should return new generated token for user1", async () => {
-        const user1TokenCount = await PushToken.count({ where: { user: fixtures.user1.uid } });
+        const user1TokenCount = await PushToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
         expect(user1TokenCount).toBe(1);
 
-        const userToken = await PushToken.findOne({ where: { user: fixtures.user1.uid } });
+        const userToken = await PushToken.findOne({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
         expect(userToken.token).toBe(fixtures.user1PushToken.token);
 
         const user = await User.findOne({ where: { uid: fixtures.user1.uid } });
@@ -49,13 +61,25 @@ describe("PushNotificationService", () => {
         expect(token).not.toBe(null);
         expect(token.token).toBe("testTokenUser1");
 
-        const user1TokenCountAfter = await PushToken.count({ where: { user: fixtures.user1.uid } });
+        const user1TokenCountAfter = await PushToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
 
         expect(user1TokenCountAfter).toBe(1);
     });
 
     it("should return new generated token for user2", async () => {
-        const userTokenCount = await PushToken.count({ where: { user: fixtures.user2.uid } });
+        const userTokenCount = await PushToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user2.uid
+                }
+            }
+        });
         expect(userTokenCount).toBe(0);
 
         const user = await User.findOne({ where: { uid: fixtures.user2.uid } });
@@ -65,13 +89,25 @@ describe("PushNotificationService", () => {
         expect(token).not.toBe(null);
         expect(token.token).toBe("testTokenUser2");
 
-        const userTokenCountAfter = await PushToken.count({ where: { user: fixtures.user2.uid } });
+        const userTokenCountAfter = await PushToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user2.uid
+                }
+            }
+        });
 
         expect(userTokenCountAfter).toBe(1);
     });
 
     it("should return null because of pushToken conflict", async () => {
-        const user1TokenCount = await PushToken.count({ where: { user: fixtures.user1.uid } });
+        const user1TokenCount = await PushToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
 
         expect(user1TokenCount).toBe(1);
 
@@ -81,7 +117,13 @@ describe("PushNotificationService", () => {
         expect(user).not.toBe(null);
         expect(token).toBe(null);
 
-        const user1TokenCountAfter = await PushToken.count({ where: { user: fixtures.user1.uid } });
+        const user1TokenCountAfter = await PushToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
 
         expect(user1TokenCountAfter).toBe(1);
     });

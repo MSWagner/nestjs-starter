@@ -46,18 +46,42 @@ describe("Login Controller", () => {
             password: "testPassword"
         };
 
-        const refreshTokenCountBefore = await RefreshToken.count({ user: fixtures.user1 });
+        const refreshTokenCountBefore = await RefreshToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
         expect(refreshTokenCountBefore).toEqual(1);
 
-        const accessTokenCountBefore = await AccessToken.count({ user: fixtures.user1 });
+        const accessTokenCountBefore = await AccessToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
         expect(accessTokenCountBefore).toEqual(1);
 
         const response = await request(app.getHttpServer()).post("/api/v1/auth/login").send(body).expect(201);
 
-        const refreshTokenCountAfter = await RefreshToken.count({ user: fixtures.user1 });
+        const refreshTokenCountAfter = await RefreshToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
         expect(refreshTokenCountAfter).toEqual(refreshTokenCountBefore + 1);
 
-        const accessTokenCountAfter = await AccessToken.count({ user: fixtures.user1 });
+        const accessTokenCountAfter = await AccessToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
         expect(accessTokenCountAfter).toEqual(accessTokenCountBefore + 1);
 
         const credentials = testService.replaceValues(response.body, ["UUID", "DATE"]);
@@ -69,18 +93,42 @@ describe("Login Controller", () => {
             password: "testPassword"
         };
 
-        const refreshTokenCountBefore = await RefreshToken.count({ user: fixtures.user1 });
+        const refreshTokenCountBefore = await RefreshToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
         expect(refreshTokenCountBefore).toEqual(1);
 
-        const accessTokenCountBefore = await AccessToken.count({ user: fixtures.user1 });
+        const accessTokenCountBefore = await AccessToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
         expect(accessTokenCountBefore).toEqual(1);
 
         const response = await request(app.getHttpServer()).post("/api/v1/auth/login").send(body).expect(401);
 
-        const refreshTokenCountAfter = await RefreshToken.count({ user: fixtures.user1 });
+        const refreshTokenCountAfter = await RefreshToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
         expect(refreshTokenCountAfter).toEqual(refreshTokenCountBefore);
 
-        const accessTokenCountAfter = await AccessToken.count({ user: fixtures.user1 });
+        const accessTokenCountAfter = await AccessToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
         expect(accessTokenCountAfter).toEqual(accessTokenCountBefore);
 
         const credentials = testService.replaceValues(response.body, ["UUID", "DATE"]);
@@ -92,18 +140,42 @@ describe("Login Controller", () => {
             username: fixtures.user1.username
         };
 
-        const refreshTokenCountBefore = await RefreshToken.count({ user: fixtures.user1 });
+        const refreshTokenCountBefore = await RefreshToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
         expect(refreshTokenCountBefore).toEqual(1);
 
-        const accessTokenCountBefore = await AccessToken.count({ user: fixtures.user1 });
+        const accessTokenCountBefore = await AccessToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
         expect(accessTokenCountBefore).toEqual(1);
 
         const response = await request(app.getHttpServer()).post("/api/v1/auth/login").send(body).expect(401);
 
-        const refreshTokenCountAfter = await RefreshToken.count({ user: fixtures.user1 });
+        const refreshTokenCountAfter = await RefreshToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
         expect(refreshTokenCountAfter).toEqual(refreshTokenCountBefore);
 
-        const accessTokenCountAfter = await AccessToken.count({ user: fixtures.user1 });
+        const accessTokenCountAfter = await AccessToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
         expect(accessTokenCountAfter).toEqual(accessTokenCountBefore);
 
         const credentials = testService.replaceValues(response.body, ["UUID", "DATE"]);
@@ -116,18 +188,42 @@ describe("Login Controller", () => {
             password: "testPassword"
         };
 
-        const refreshTokenCountBefore = await RefreshToken.count({ user: fixtures.user1 });
+        const refreshTokenCountBefore = await RefreshToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
         expect(refreshTokenCountBefore).toEqual(1);
 
-        const accessTokenCountBefore = await AccessToken.count({ user: fixtures.user1 });
+        const accessTokenCountBefore = await AccessToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
         expect(accessTokenCountBefore).toEqual(1);
 
         const response = await request(app.getHttpServer()).post("/api/v1/auth/login").send(body).expect(401);
 
-        const refreshTokenCountAfter = await RefreshToken.count({ user: fixtures.user1 });
+        const refreshTokenCountAfter = await RefreshToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
         expect(refreshTokenCountAfter).toEqual(refreshTokenCountBefore);
 
-        const accessTokenCountAfter = await AccessToken.count({ user: fixtures.user1 });
+        const accessTokenCountAfter = await AccessToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
         expect(accessTokenCountAfter).toEqual(accessTokenCountBefore);
 
         const credentials = testService.replaceValues(response.body, ["UUID", "DATE"]);
@@ -140,18 +236,42 @@ describe("Login Controller", () => {
             password: "wrongPassword"
         };
 
-        const refreshTokenCountBefore = await RefreshToken.count({ user: fixtures.user1 });
+        const refreshTokenCountBefore = await RefreshToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
         expect(refreshTokenCountBefore).toEqual(1);
 
-        const accessTokenCountBefore = await AccessToken.count({ user: fixtures.user1 });
+        const accessTokenCountBefore = await AccessToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
         expect(accessTokenCountBefore).toEqual(1);
 
         const response = await request(app.getHttpServer()).post("/api/v1/auth/login").send(body).expect(401);
 
-        const refreshTokenCountAfter = await RefreshToken.count({ user: fixtures.user1 });
+        const refreshTokenCountAfter = await RefreshToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
         expect(refreshTokenCountAfter).toEqual(refreshTokenCountBefore);
 
-        const accessTokenCountAfter = await AccessToken.count({ user: fixtures.user1 });
+        const accessTokenCountAfter = await AccessToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
         expect(accessTokenCountAfter).toEqual(accessTokenCountBefore);
 
         const credentials = testService.replaceValues(response.body, ["UUID", "DATE"]);
@@ -164,18 +284,42 @@ describe("Login Controller", () => {
             password: "testPassword"
         };
 
-        const refreshTokenCountBefore = await RefreshToken.count({ user: fixtures.user1 });
+        const refreshTokenCountBefore = await RefreshToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
         expect(refreshTokenCountBefore).toEqual(1);
 
-        const accessTokenCountBefore = await AccessToken.count({ user: fixtures.user1 });
+        const accessTokenCountBefore = await AccessToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
         expect(accessTokenCountBefore).toEqual(1);
 
         const response = await request(app.getHttpServer()).post("/api/v1/auth/login").send(body).expect(403);
 
-        const refreshTokenCountAfter = await RefreshToken.count({ user: fixtures.user1 });
+        const refreshTokenCountAfter = await RefreshToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
         expect(refreshTokenCountAfter).toEqual(refreshTokenCountBefore);
 
-        const accessTokenCountAfter = await AccessToken.count({ user: fixtures.user1 });
+        const accessTokenCountAfter = await AccessToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
         expect(accessTokenCountAfter).toEqual(accessTokenCountBefore);
 
         const credentials = testService.replaceValues(response.body, ["UUID", "DATE"]);

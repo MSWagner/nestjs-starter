@@ -33,13 +33,25 @@ describe("AuthService", () => {
     });
 
     afterAll((done) => {
-        testService.connectionManager.connection.close();
+        testService.dataSource.destroy();
         done();
     });
 
     it("should return new generated token for user1", async () => {
-        const user1AccessTokenCount = await AccessToken.count({ where: { user: fixtures.user1.uid } });
-        const user1RefreshTokenCount = await RefreshToken.count({ where: { user: fixtures.user1.uid } });
+        const user1AccessTokenCount = await AccessToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
+        const user1RefreshTokenCount = await RefreshToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
 
         expect(user1AccessTokenCount).toBe(1);
         expect(user1RefreshTokenCount).toBe(1);
@@ -50,8 +62,20 @@ describe("AuthService", () => {
         expect(tokens.accessToken).not.toBe(null);
         expect(tokens.refreshToken).not.toBe(null);
 
-        const user1AccessTokenCountAfter = await AccessToken.count({ where: { user: fixtures.user1.uid } });
-        const user1RefreshTokenCountAfter = await RefreshToken.count({ where: { user: fixtures.user1.uid } });
+        const user1AccessTokenCountAfter = await AccessToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
+        const user1RefreshTokenCountAfter = await RefreshToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
 
         expect(user1AccessTokenCountAfter).toBe(2);
         expect(user1RefreshTokenCountAfter).toBe(2);
@@ -97,14 +121,22 @@ describe("AuthService", () => {
     });
 
     it("should return null for invalid token and delete it", async () => {
-        const accessTokenCountBefore = await AccessToken.count({ token: fixtures.invalidAccessToken.token });
+        const accessTokenCountBefore = await AccessToken.count({
+            where: {
+                token: fixtures.invalidAccessToken.token
+            }
+        });
         expect(accessTokenCountBefore).toEqual(1);
 
         const user = await service.validateToken(fixtures.invalidAccessToken.token);
 
         expect(user).toBe(null);
 
-        const accessTokenCountAfter = await AccessToken.count({ token: fixtures.invalidAccessToken.token });
+        const accessTokenCountAfter = await AccessToken.count({
+            where: {
+                token: fixtures.invalidAccessToken.token
+            }
+        });
         expect(accessTokenCountAfter).toEqual(0);
     });
 
@@ -136,8 +168,20 @@ describe("AuthService", () => {
     });
 
     it("should return new generated token for user1 login", async () => {
-        const user1AccessTokenCount = await AccessToken.count({ where: { user: fixtures.user1.uid } });
-        const user1RefreshTokenCount = await RefreshToken.count({ where: { user: fixtures.user1.uid } });
+        const user1AccessTokenCount = await AccessToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
+        const user1RefreshTokenCount = await RefreshToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
 
         expect(user1AccessTokenCount).toBe(1);
         expect(user1RefreshTokenCount).toBe(1);
@@ -151,16 +195,40 @@ describe("AuthService", () => {
         // To test the option with 0 as refreshTokenValidityMS
         expect(tokens.refreshToken.validUntil).toBe(null);
 
-        const user1AccessTokenCountAfter = await AccessToken.count({ where: { user: fixtures.user1.uid } });
-        const user1RefreshTokenCountAfter = await RefreshToken.count({ where: { user: fixtures.user1.uid } });
+        const user1AccessTokenCountAfter = await AccessToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
+        const user1RefreshTokenCountAfter = await RefreshToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
 
         expect(user1AccessTokenCountAfter).toBe(2);
         expect(user1RefreshTokenCountAfter).toBe(2);
     });
 
     it("should return new generated token with refreshToken", async () => {
-        const user1AccessTokenCount = await AccessToken.count({ where: { user: fixtures.user1.uid } });
-        const user1RefreshTokenCount = await RefreshToken.count({ where: { user: fixtures.user1.uid } });
+        const user1AccessTokenCount = await AccessToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
+        const user1RefreshTokenCount = await RefreshToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
 
         expect(user1AccessTokenCount).toBe(1);
         expect(user1RefreshTokenCount).toBe(1);
@@ -170,16 +238,40 @@ describe("AuthService", () => {
         expect(tokens.accessToken).not.toBe(null);
         expect(tokens.refreshToken).not.toBe(null);
 
-        const user1AccessTokenCountAfter = await AccessToken.count({ where: { user: fixtures.user1.uid } });
-        const user1RefreshTokenCountAfter = await RefreshToken.count({ where: { user: fixtures.user1.uid } });
+        const user1AccessTokenCountAfter = await AccessToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
+        const user1RefreshTokenCountAfter = await RefreshToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
 
         expect(user1AccessTokenCountAfter).toBe(2);
         expect(user1RefreshTokenCountAfter).toBe(1);
     });
 
     it("should return null for not existing refreshToken", async () => {
-        const user1AccessTokenCount = await AccessToken.count({ where: { user: fixtures.user1.uid } });
-        const user1RefreshTokenCount = await RefreshToken.count({ where: { user: fixtures.user1.uid } });
+        const user1AccessTokenCount = await AccessToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
+        const user1RefreshTokenCount = await RefreshToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
 
         expect(user1AccessTokenCount).toBe(1);
         expect(user1RefreshTokenCount).toBe(1);
@@ -190,14 +282,22 @@ describe("AuthService", () => {
     });
 
     it("should return null for invalid refreshToken", async () => {
-        const refreshTokenCountBefore = await RefreshToken.count({ token: fixtures.invalidRefreshToken.token });
+        const refreshTokenCountBefore = await RefreshToken.count({
+            where: {
+                token: fixtures.invalidRefreshToken.token
+            }
+        });
         expect(refreshTokenCountBefore).toBe(1);
 
         const tokens = await service.refreshAuthToken(fixtures.invalidRefreshToken.token);
 
         expect(tokens).toBe(null);
 
-        const refreshTokenCountAfter = await RefreshToken.count({ token: fixtures.invalidRefreshToken.token });
+        const refreshTokenCountAfter = await RefreshToken.count({
+            where: {
+                token: fixtures.invalidRefreshToken.token
+            }
+        });
         expect(refreshTokenCountAfter).toBe(0);
     });
 

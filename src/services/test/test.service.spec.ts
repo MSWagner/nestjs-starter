@@ -21,7 +21,7 @@ describe("TestService", () => {
     });
 
     afterAll((done) => {
-        service.connectionManager.connection.close();
+        service.dataSource.destroy();
         done();
     });
 
@@ -46,12 +46,20 @@ describe("TestService", () => {
         newUser.username = "TestUser";
         await newUser.save();
 
-        const newUserCountBefore = await User.count({ username: "TestUser" });
+        const newUserCountBefore = await User.count({
+            where: {
+                username: "TestUser"
+            }
+        });
         expect(newUserCountBefore).toEqual(1);
 
         await service.reloadFixtures();
 
-        const newUserCountAfter = await User.count({ username: "TestUser" });
+        const newUserCountAfter = await User.count({
+            where: {
+                username: "TestUser"
+            }
+        });
         expect(newUserCountAfter).toEqual(0);
     });
 

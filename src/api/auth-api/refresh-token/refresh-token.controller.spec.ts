@@ -45,18 +45,38 @@ describe("RefreshToken Controller", () => {
             refreshToken: fixtures.refreshToken1.token
         };
 
-        const refreshTokenCountBefore = await RefreshToken.count({ token: body.refreshToken });
+        const refreshTokenCountBefore = await RefreshToken.count({
+            where: {
+                token: body.refreshToken
+            }
+        });
         expect(refreshTokenCountBefore).toEqual(1);
 
-        const accessTokenCountBefore = await AccessToken.count({ user: fixtures.user1 });
+        const accessTokenCountBefore = await AccessToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
         expect(accessTokenCountBefore).toEqual(1);
 
         const response = await request(app.getHttpServer()).post("/api/v1/auth/refresh").send(body).expect(201);
 
-        const refreshTokenCountAfter = await RefreshToken.count({ token: body.refreshToken });
+        const refreshTokenCountAfter = await RefreshToken.count({
+            where: {
+                token: body.refreshToken
+            }
+        });
         expect(refreshTokenCountAfter).toEqual(1);
 
-        const accessTokenCountAfter = await AccessToken.count({ user: fixtures.user1 });
+        const accessTokenCountAfter = await AccessToken.count({
+            where: {
+                user: {
+                    uid: fixtures.user1.uid
+                }
+            }
+        });
         expect(accessTokenCountAfter).toEqual(accessTokenCountBefore + 1);
 
         const credentials = testService.replaceValues(response.body, ["UUID", "DATE"]);

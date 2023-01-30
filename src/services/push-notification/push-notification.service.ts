@@ -14,7 +14,13 @@ export class PushNotificationService {
     ) {}
 
     async upsertPushToken(token: string, user: User): Promise<PushToken | null> {
-        let pushToken = await PushToken.findOne({ where: { user: user.uid } });
+        let pushToken = await PushToken.findOne({
+            where: {
+                user: {
+                    uid: user.uid
+                }
+            }
+        });
         if (!pushToken) {
             pushToken = new PushToken();
             pushToken.user = user;

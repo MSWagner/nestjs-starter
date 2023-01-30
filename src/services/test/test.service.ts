@@ -2,10 +2,12 @@ import * as _ from "lodash";
 import moment from "moment";
 import { validate } from "uuid";
 
-import { Injectable } from "@nestjs/common";
-import { getConnection, EntityManager } from "typeorm";
+import { Inject, Injectable } from "@nestjs/common";
+import { EntityManager, DataSource } from "typeorm";
 
 import { fixtureTrees } from "./fixtures";
+
+import { CONFIG } from "../../config";
 
 export type REPLACE_TYPE = "DATE" | "UUID";
 export interface IEntity {
@@ -18,12 +20,15 @@ export interface IEntity {
 export class TestService {
     connectionManager: EntityManager;
 
-    constructor() {
+    constructor(
+        @Inject(CONFIG.database.defaultConnectionName)
+        public dataSource: DataSource
+    ) {
         if (process.env.NODE_ENV !== "test") {
             throw new Error("ERROR-TEST-UTILS-ONLY-FOR-TESTS");
         }
 
-        this.connectionManager = getConnection().manager;
+        this.connectionManager = this.dataSource.createEntityManager();
     }
 
     /**

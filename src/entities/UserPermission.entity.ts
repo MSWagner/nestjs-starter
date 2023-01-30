@@ -1,19 +1,23 @@
-import { BaseEntity, Entity, ManyToOne, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { BaseEntity, Entity, ManyToOne, CreateDateColumn, UpdateDateColumn, PrimaryColumn } from "typeorm";
 
 import { User } from "./User.entity";
 import { Permission } from "./Permission.entity";
 
 @Entity()
 export class UserPermission extends BaseEntity {
+    @PrimaryColumn({ type: "uuid" })
+    userUid: string;
+
+    @PrimaryColumn({ type: "uuid" })
+    permissionUid: string;
+
     @ManyToOne((_type) => User, (user) => user.userPermissions, {
-        primary: true,
         onDelete: "CASCADE",
         onUpdate: "CASCADE"
     })
     user: User;
 
     @ManyToOne((_type) => Permission, (user) => user.userPermissions, {
-        primary: true,
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
         eager: true
