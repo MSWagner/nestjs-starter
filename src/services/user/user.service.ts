@@ -19,8 +19,17 @@ export class UserService {
         return bcrypt.hash(password, this.saltRounds);
     }
 
-    async findOne(username: string): Promise<User | undefined> {
-        return this.userRepository.findOne({ username }, { relations: ["userPermissions"] });
+    async findOne(username: string): Promise<User | null> {
+        return this.userRepository.findOne({
+            where: {
+                username
+            },
+            relations: {
+                userPermissions: {
+                    permission: true
+                }
+            }
+        });
     }
 
     async createUser(username: string, password: string): Promise<User> {

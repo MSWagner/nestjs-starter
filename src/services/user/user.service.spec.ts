@@ -6,6 +6,7 @@ import { TestService } from "../../services/test/test.service";
 
 import { UserService } from "./user.service";
 import { userProviders } from "./user.providers";
+import { UserPermission } from "../../entities/UserPermission.entity";
 
 import * as fixtures from "../test/fixtures";
 
@@ -26,7 +27,7 @@ describe("UserService", () => {
     });
 
     afterAll((done) => {
-        testService.connectionManager.connection.close();
+        testService.dataSource.destroy();
         done();
     });
 
@@ -36,10 +37,26 @@ describe("UserService", () => {
         expect(user1.uid).toEqual(fixtures.user1.uid);
     });
 
+    it("should find user1 with user permissions", async () => {
+        const user1UserPermission = await UserPermission.findOne({
+            where: {
+                userUid: fixtures.user1.uid
+            }
+        });
+        expect(user1UserPermission).not.toBeNull();
+        const user1 = await service.findOne(fixtures.user1.username);
+
+        expect(user1.uid).toEqual(fixtures.user1.uid);
+        expect(user1.userPermissions).not.toBeNull();
+        expect(user1.userPermissions.length).toEqual(1);
+        expect(user1.userPermissions[0].userUid).toEqual(user1UserPermission.userUid);
+        expect(user1.userPermissions[0].permission.scope).toEqual(user1UserPermission.permission.scope);
+    });
+
     it("should not find some user with unknown username", async () => {
         const user = await service.findOne("unknown");
 
-        expect(user).toBeUndefined();
+        expect(user).toBeNull();
     });
 
     it("should create a new user", async () => {

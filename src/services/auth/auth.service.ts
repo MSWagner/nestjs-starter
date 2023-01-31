@@ -74,7 +74,18 @@ export class AuthService {
     }
 
     async validateToken(token: string): Promise<User> {
-        const accessToken = await this.accessTokenRepository.findOne(token, { relations: ["user"] });
+        const accessToken = await this.accessTokenRepository.findOne({
+            where: {
+                token
+            },
+            relations: {
+                user: {
+                    userPermissions: {
+                        permission: true
+                    }
+                }
+            }
+        });
 
         if (_.isNil(accessToken)) {
             return null;
@@ -83,7 +94,7 @@ export class AuthService {
         const isValid = moment().isSameOrBefore(accessToken.validUntil);
 
         if (!isValid) {
-            await this.accessTokenRepository.delete(accessToken);
+            await this.accessTokenRepository.delete(accessToken.token);
         }
 
         if (!accessToken.user.isActive) {
@@ -102,7 +113,14 @@ export class AuthService {
     }
 
     async refreshAuthToken(token: string): Promise<IToken> {
-        const refreshToken = await this.refreshTokenRepository.findOne(token, { relations: ["user"] });
+        const refreshToken = await this.refreshTokenRepository.findOne({
+            where: {
+                token
+            },
+            relations: {
+                user: true
+            }
+        });
 
         const isValid =
             !_.isNil(refreshToken) &&
@@ -110,7 +128,7 @@ export class AuthService {
             (_.isNil(refreshToken.validUntil) || moment().isSameOrBefore(refreshToken.validUntil));
 
         if (!isValid && !_.isNil(refreshToken)) {
-            await this.refreshTokenRepository.delete(refreshToken);
+            await this.refreshTokenRepository.delete(refreshToken.token);
         }
 
         return !isValid

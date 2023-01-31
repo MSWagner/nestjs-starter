@@ -35,13 +35,13 @@ export const userInActive = {
 };
 
 export const user1Permission = {
-    user: user1.uid,
-    permission: permissionUser.uid
+    userUid: user1.uid,
+    permissionUid: permissionUser.uid
 };
 
 export const user3Permission = {
-    user: user3.uid,
-    permission: permissionAdmin.uid
+    userUid: user3.uid,
+    permissionUid: permissionAdmin.uid
 };
 
 export const accessToken1 = {

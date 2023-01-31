@@ -45,7 +45,11 @@ describe("Register Controller", () => {
             password: "passwordTest"
         };
 
-        const userCountBefore = await User.count({ username: registerBody.username });
+        const userCountBefore = await User.count({
+            where: {
+                username: registerBody.username
+            }
+        });
         expect(userCountBefore).toEqual(0);
 
         const response = await request(app.getHttpServer())
@@ -53,7 +57,11 @@ describe("Register Controller", () => {
             .send(registerBody)
             .expect(201);
 
-        const userCountAfter = await User.count({ username: registerBody.username });
+        const userCountAfter = await User.count({
+            where: {
+                username: registerBody.username
+            }
+        });
         expect(userCountAfter).toEqual(1);
 
         const credentials = testService.replaceValues(response.body, ["UUID", "DATE"]);
